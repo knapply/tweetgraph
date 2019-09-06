@@ -1,0 +1,23 @@
+Package: tweetgraph
+Title: Tweet Graph Structures and Other Utilities
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Brendan", family = "Knapp",
+           email = "brendan.knapp@nps.edu",
+           role = c("aut", "cre"))
+Description: Model tweet data as various graph structures, such as a knowledge
+    graph or social network.
+License: GPL-3 + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.6)
+Imports:
+    data.table,
+    igraph,
+    stats,
+    stringi
+Suggests:
+    rtweet,
+    testthat
+RoxygenNote: 6.1.1
+Roxygen: list(markdown = TRUE)
