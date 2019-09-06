@@ -30,3 +30,28 @@ bytes](https://img.shields.io/github/languages/code-size/knapply/tweetgraph.svg)
 # install.packages("remotes")
 remotes::install_github("knapply/tweetgraph")
 ```
+
+# Usage
+
+``` r
+library(tweetgraph)
+
+hashtag_rstats <- rtweet::search_tweets("#rstats")
+
+tweet_graph <- as_knowledge_graph(hashtag_rstats)
+
+tweet_graph
+```
+
+    #> IGRAPH ea52eb1 DN-- 331 739 -- 
+    #> + attr: timestamp_ms (v/n), name (v/c), created_at (v/n), text
+    #> | (v/c), source (v/c), lang (v/c), node_class (v/c), TWITTER_NAME
+    #> | (v/c), screen_name (v/c), location (v/c), description (v/c), url
+    #> | (v/c), protected (v/l), followers_count (v/n), friends_count
+    #> | (v/n), listed_count (v/n), statuses_count (v/n),
+    #> | favourites_count (v/n), account_created_at (v/n), verified
+    #> | (v/l), profile_url (v/c), account_lang (v/l), time (e/n),
+    #> | source_class (e/c), action (e/c), target_class (e/c)
+    #> + edges from ea52eb1 (vertex names):
+    #> [1] 1165301524412526593->1169993733611429889
+    #> + ... omitted several edges

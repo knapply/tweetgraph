@@ -45,3 +45,16 @@ knitr::opts_chunk$set(
 # install.packages("remotes")
 remotes::install_github("knapply/tweetgraph")
 ```
+
+# Usage
+
+```{r}
+library(tweetgraph)
+
+hashtag_rstats <- rtweet::search_tweets("#rstats")
+
+tweet_graph <- as_knowledge_graph(hashtag_rstats)
+
+tweet_graph
+```
+

@@ -102,6 +102,29 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># install.packages("remotes")</span></a>
 <a class="sourceLine" id="cb1-2" title="2">remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"knapply/tweetgraph"</span>)</a></code></pre></div>
 </div>
+<div id="usage" class="section level1">
+<h1 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h1>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tweetgraph)</a>
+<a class="sourceLine" id="cb2-2" title="2"></a>
+<a class="sourceLine" id="cb2-3" title="3">hashtag_rstats &lt;-<span class="st"> </span>rtweet<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/search_tweets.html">search_tweets</a></span>(<span class="st">"#rstats"</span>)</a>
+<a class="sourceLine" id="cb2-4" title="4"></a>
+<a class="sourceLine" id="cb2-5" title="5">tweet_graph &lt;-<span class="st"> </span><span class="kw"><a href="reference/as_knowledge_graph.html">as_knowledge_graph</a></span>(hashtag_rstats)</a>
+<a class="sourceLine" id="cb2-6" title="6"></a>
+<a class="sourceLine" id="cb2-7" title="7">tweet_graph</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co">#&gt; IGRAPH ea52eb1 DN-- 331 739 -- </span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; + attr: timestamp_ms (v/n), name (v/c), created_at (v/n), text</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; | (v/c), source (v/c), lang (v/c), node_class (v/c), TWITTER_NAME</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; | (v/c), screen_name (v/c), location (v/c), description (v/c), url</span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt; | (v/c), protected (v/l), followers_count (v/n), friends_count</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; | (v/n), listed_count (v/n), statuses_count (v/n),</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; | favourites_count (v/n), account_created_at (v/n), verified</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; | (v/l), profile_url (v/c), account_lang (v/l), time (e/n),</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt; | source_class (e/c), action (e/c), target_class (e/c)</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt; + edges from ea52eb1 (vertex names):</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt; [1] 1165301524412526593-&gt;1169993733611429889</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt; + ... omitted several edges</span></a></code></pre></div>
+</div>
 
   </div>
 

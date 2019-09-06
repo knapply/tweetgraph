@@ -204,9 +204,37 @@ get_entity_edges <- function(.tweet_df, .col_list) {
   )
 }
 
+
+
+#' Build a knowledge graph from a tweet data frame.
+#' 
+#' @param tweet_df 
+#' * `data.frame`
+#'   + as returned by [`{rtweet}`](https://rtweet.info/) functions.
+#' @param .edge_type
+#' * `character(1L)`
+#'   + `"info_flow"` or `"interaction"`
+#' 
+#' @return `igraph`
+#' 
+#' @template author-bk
+#' 
+#' @examples 
+#' \dontrun{
+#' 
+#' 
+#' hashtag_rstats <- rtweet::search_tweets("#rstats")
+#' 
+#' tweet_graph <- as_knowledge_graph(hashtag_rstats)
+#' 
+#' 
+#' }
+#'
 #' @importFrom data.table := %chin% as.data.table is.data.table setnames setorder
 #' @importFrom igraph as_ids graph_from_data_frame V vertex.attributes<- edge.attributes<-
 #' @importFrom stringi stri_trans_tolower
+#' 
+#' @export
 as_knowledge_graph <- function(tweet_df,
                                .edge_type = c("info_flow", "interaction")) {
   # handle R CMD check NOTES about NSE {data.table} vars
