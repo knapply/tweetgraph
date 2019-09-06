@@ -1,13 +1,14 @@
 #' @importFrom data.table %chin% rbindlist
 extract_all_users <- function(tweet_df) {
   # handle R CMD check NOTES about NSE {data.table} vars
-  row_id <- NULL
-  user_id <- NULL
-  timestamp_ms <- NULL
-  ..x <- NULL
-  .I <- NULL
-  .SD <- NULL
+  # row_id <- NULL
+  # user_id <- NULL
+  # timestamp_ms <- NULL
+  # ..x <- NULL
+  # .I <- NULL
+  # .SD <- NULL
   #
+  
   user_cols <- user_col_names(tweet_df)
   
   user_dfs <- lapply(user_cols, function(x) {
@@ -40,9 +41,10 @@ extract_all_users <- function(tweet_df) {
 #' @importFrom data.table rbindlist
 extract_all_statuses <- function(tweet_df) {
   # handle R CMD check NOTES about NSE {data.table} vars
-  status_id <- NULL
-  ..x <- NULL
+  # status_id <- NULL
+  # ..x <- NULL
   #
+  
   status_cols <- status_col_names(tweet_df)
   
   status_dfs <- lapply(status_cols, function(x){
@@ -131,8 +133,9 @@ set_edge_col_names <- function(edge_df, columns) {
 #' @importFrom stats na.omit
 .get_status_user_edges <- function(columns, .tweet_df, edge_type) {
   # handle R CMD check NOTES about NSE {data.table} vars
-  ..columns <- NULL
+  # ..columns <- NULL
   #
+  
   edge_action_col <- switch (edge_type,
                              interaction = columns[[2L]],
                              info_flow = columns[[1L]],
@@ -151,8 +154,7 @@ set_edge_col_names <- function(edge_df, columns) {
 }
 
 
-#' @importFrom data.table := %chin% rbindlist setnames setorder
-#' @importFrom igraph as_ids graph_from_data_frame V vertex_attr vertex_attr<-
+#' @importFrom data.table rbindlist
 get_status_user_edges <- function(.tweet_df, .col_list, edge_type) {
   df_list <- lapply(.col_list, .get_status_user_edges, .tweet_df, 
                     edge_type = edge_type)
@@ -164,8 +166,9 @@ get_status_user_edges <- function(.tweet_df, .col_list, edge_type) {
 #' @importFrom stats na.omit
 .get_entity_edges <- function(columns, .tweet_df) {
   # handle R CMD check NOTES about NSE {data.table} vars
-  ..columns <- NULL
+  # ..columns <- NULL
   #
+  
   out <- na.omit(.tweet_df, cols = columns
                  )[, ..columns
                    ][, c("source_class", "action", "target_class") := list(
@@ -184,9 +187,10 @@ unlist_na_rm <- function(x) {
 #' @importFrom data.table rbindlist setcolorder
 get_entity_edges <- function(.tweet_df, .col_list) {
   # handle R CMD check NOTES about NSE {data.table} vars
-  target <- NULL
-  . <- NULL
+  # target <- NULL
+  # . <- NULL
   #
+  
   init <- rbindlist(
     lapply(.col_list, .get_entity_edges, .tweet_df),
     use.names = TRUE, fill = TRUE
@@ -206,21 +210,22 @@ get_entity_edges <- function(.tweet_df, .col_list) {
 as_knowledge_graph <- function(tweet_df,
                                .edge_type = c("info_flow", "interaction")) {
   # handle R CMD check NOTES about NSE {data.table} vars
-  source <- NULL
-  source_class <- NULL
-  target <- NULL
-  target_class <- NULL
-  time <- NULL
-  status_id <- NULL
-  node_class <- NULL
-  user_id <- NULL
-  timestamp_ms <- NULL
-  node_order <- NULL
-  . <- NULL
-  ..columns <- NULL
-  .I <- NULL
-  .SD <- NULL
+  # source <- NULL
+  # source_class <- NULL
+  # target <- NULL
+  # target_class <- NULL
+  # time <- NULL
+  # status_id <- NULL
+  # node_class <- NULL
+  # user_id <- NULL
+  # timestamp_ms <- NULL
+  # node_order <- NULL
+  # . <- NULL
+  # ..columns <- NULL
+  # .I <- NULL
+  # .SD <- NULL
   #
+  
   if (!is.data.table(tweet_df)) {
     tweet_df <- as.data.table(tweet_df)
   }
@@ -325,7 +330,7 @@ as_knowledge_graph <- function(tweet_df,
     use.names = TRUE, fill = TRUE
   )
   
-  missing_nodes <- V(g)[!vertex_attr(g, name = "name") %chin% all_attrs$name]
+  missing_nodes <- V(g)[!V(g)$name %chin% all_attrs$name]
   if (length(missing_nodes) != 0L) {
     missing_attrs <- rbindlist(
       list(edges[source %chin% missing_nodes$name, 

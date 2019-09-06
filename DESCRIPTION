@@ -2,22 +2,26 @@ Package: tweetgraph
 Title: Tweet Graph Structures and Other Utilities
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "Brendan", family = "Knapp",
-           email = "brendan.knapp@nps.edu",
-           role = c("aut", "cre"))
-Description: Model tweet data as various graph structures, such as a knowledge
-    graph or social network.
+    person("Brendan", "Knapp", 
+           email = "brendan.g.knapp@gmail.com", 
+           role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-3284-4972"))
+Description: Model tweet data as various graph structures.
 License: GPL-3 + file LICENSE
-Encoding: UTF-8
-LazyData: true
 Depends: R (>= 3.6)
 Imports:
     data.table,
     igraph,
     stats,
-    stringi
+    stringi,
+    magrittr
 Suggests:
     rtweet,
-    testthat
+    testthat (>= 2.1.0)
+URL: https://github.com/knapply/tweetgraph, https://knapply.github.io/tweetgraph
+BugReports: https://github.com/knapply/tweetgraph/issues
+Encoding: UTF-8
+LazyData: true
 RoxygenNote: 6.1.1
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
