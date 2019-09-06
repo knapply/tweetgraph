@@ -17,7 +17,8 @@ Imports:
     magrittr
 Suggests:
     rtweet,
-    testthat (>= 2.1.0)
+    testthat (>= 2.1.0),
+    covr
 URL: https://github.com/knapply/tweetgraph, https://knapply.github.io/tweetgraph
 BugReports: https://github.com/knapply/tweetgraph/issues
 Encoding: UTF-8
