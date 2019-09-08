@@ -105,39 +105,45 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tweetgraph)</a>
 <a class="sourceLine" id="cb2-2" title="2"></a>
 <a class="sourceLine" id="cb2-3" title="3">hashtag_rstats &lt;-<span class="st"> </span>rtweet<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/search_tweets.html">search_tweets</a></span>(<span class="st">"#rstats"</span>)</a></code></pre></div>
-<div id="social-network" class="section level2">
-<h2 class="hasAnchor">
-<a href="#social-network" class="anchor"></a>Social Network</h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="reference/as_social_network.html">as_social_network</a></span>(hashtag_rstats)</a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">#&gt; IGRAPH af741cb DN-- 108 234 -- </span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; + attr: name (v/c), timestamp_ms (v/n), TWITTER_NAME (v/c),</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; | screen_name (v/c), location (v/c), description (v/c), url (v/c),</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; | protected (v/l), followers_count (v/n), friends_count (v/n),</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; | listed_count (v/n), statuses_count (v/n), favourites_count</span></a>
-<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; | (v/n), account_created_at (v/n), verified (v/l), profile_url</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; | (v/c), account_lang (v/l), node_class (v/c), action (e/c),</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; | status_id (e/c), text (e/c), source (e/c), lang (e/c)</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; + edges from af741cb (vertex names):</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; [1] 1011817655957893120-&gt;877278595 1011817655957893120-&gt;877278595</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; [3] 1011817655957893120-&gt;460315204 1011817655957893120-&gt;460315204</span></a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; + ... omitted several edges</span></a></code></pre></div>
-</div>
 <div id="knowledge-graph" class="section level2">
 <h2 class="hasAnchor">
 <a href="#knowledge-graph" class="anchor"></a>Knowledge Graph</h2>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="reference/as_knowledge_graph.html">as_knowledge_graph</a></span>(hashtag_rstats)</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co">#&gt; IGRAPH af835ef DN-- 322 1068 -- </span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="co">#&gt; + attr: timestamp_ms (v/n), name (v/c), created_at (v/n), text</span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="co">#&gt; | (v/c), source (v/c), lang (v/c), node_class (v/c), TWITTER_NAME</span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="co">#&gt; | (v/c), screen_name (v/c), location (v/c), description (v/c), url</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="co">#&gt; | (v/c), protected (v/l), followers_count (v/n), friends_count</span></a>
-<a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; | (v/n), listed_count (v/n), statuses_count (v/n),</span></a>
-<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt; | favourites_count (v/n), account_created_at (v/n), verified</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt; | (v/l), profile_url (v/c), account_lang (v/l), time (e/n),</span></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt; | source_class (e/c), action (e/c), target_class (e/c)</span></a>
-<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; + edges from af835ef (vertex names):</span></a>
-<a class="sourceLine" id="cb6-11" title="11"><span class="co">#&gt; [1] 1170484722868224000-&gt;1170486623143944192</span></a>
-<a class="sourceLine" id="cb6-12" title="12"><span class="co">#&gt; + ... omitted several edges</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">kg &lt;-<span class="st"> </span><span class="kw"><a href="reference/as_knowledge_graph.html">as_knowledge_graph</a></span>(hashtag_rstats)</a>
+<a class="sourceLine" id="cb3-2" title="2">kg</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">#&gt; IGRAPH 1c5a105 DN-- 271 917 -- </span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; + attr: timestamp_ms (v/n), name (v/c), created_at (v/n), text</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; | (v/c), source (v/c), lang (v/c), node_class (v/c), TWITTER_NAME</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; | (v/c), screen_name (v/c), location (v/c), description (v/c), url</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; | (v/c), protected (v/l), followers_count (v/n), friends_count</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="co">#&gt; | (v/n), listed_count (v/n), statuses_count (v/n),</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; | favourites_count (v/n), account_created_at (v/n), verified</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; | (v/l), profile_url (v/c), account_lang (v/l), time (e/n),</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; | source_class (e/c), action (e/c), target_class (e/c)</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; + edges from 1c5a105 (vertex names):</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; [1] 1170761344846651402-&gt;1170802898818744321</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; + ... omitted several edges</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="reference/plot_vis_net.html">plot_vis_net</a></span>(kg)</a></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-4-1.png" style="display: block; margin: auto;"></p>
+</div>
+<div id="social-network" class="section level2">
+<h2 class="hasAnchor">
+<a href="#social-network" class="anchor"></a>Social Network</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">sn &lt;-<span class="st"> </span><span class="kw"><a href="reference/as_social_network.html">as_social_network</a></span>(hashtag_rstats)</a>
+<a class="sourceLine" id="cb6-2" title="2">sn</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co">#&gt; IGRAPH 1e7f021 DN-- 88 91 -- </span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; + attr: name (v/c), timestamp_ms (v/n), TWITTER_NAME (v/c),</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; | screen_name (v/c), location (v/c), description (v/c), url (v/c),</span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; | protected (v/l), followers_count (v/n), friends_count (v/n),</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="co">#&gt; | listed_count (v/n), statuses_count (v/n), favourites_count</span></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; | (v/n), account_created_at (v/n), verified (v/l), profile_url</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; | (v/c), account_lang (v/l), node_class (v/c), action (e/c),</span></a>
+<a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; | status_id (e/c), text (e/c), source (e/c), lang (e/c)</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; + edges from 1e7f021 (vertex names):</span></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; [1] 703571724667908097-&gt;144592995  169859259         -&gt;3230388598</span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; [3] 67024593          -&gt;54482107   158380504         -&gt;4263007693</span></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; + ... omitted several edges</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/plot_vis_net.html">plot_vis_net</a></span>(sn)</a></code></pre></div>
+<p><img src="reference/figures/unnamed-chunk-5-1.png" style="display: block; margin: auto;"></p>
 </div>
 </div>
 

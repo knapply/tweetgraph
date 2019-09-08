@@ -32,7 +32,8 @@ status_col_names <- function(tweet_df, timestamp_col = "timestamp_ms") {
     mentions = c(timestamp_col, paste0("mentions_", col_templates))
   )
   
-  out <- lapply(with_context, function(.x) unique(.x[.x %chin% names(tweet_df)]))
+  out <- lapply(with_context,
+                function(.x) unique(.x[.x %chin% names(tweet_df)]))
   Filter(function(.x) length(.x) > 1L, out)
 }
 
@@ -70,7 +71,8 @@ user_col_names <- function(tweet_df, timestamp_col = "timestamp_ms") {
     mentions = c(timestamp_col, paste0("mentions_", col_templates))
   )
   
-  out <- lapply(with_context, function(.x) unique(.x[.x %chin% names(tweet_df)]))
+  out <- lapply(with_context, 
+                function(.x) unique(.x[.x %chin% names(tweet_df)]))
   Filter(function(.x) length(.x) > 1L, out)
 }
 

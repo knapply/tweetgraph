@@ -2,9 +2,10 @@
 % Please edit documentation in R/social-network.R
 \name{as_social_network}
 \alias{as_social_network}
-\title{Build a graph ready for proper social network analysis.}
+\title{Build a graph ready for social network analysis.}
 \usage{
-as_social_network(tweet_df)
+as_social_network(tweet_df, action = c("all", "mentions", "retweet",
+  "quoted", "reply_to"))
 }
 \arguments{
 \item{tweet_df}{\itemize{
@@ -13,12 +14,17 @@ as_social_network(tweet_df)
 \item as returned by  \href{https://rtweet.info/}{{rtweet}}
 }
 }}
+
+\item{action}{\itemize{
+\item \code{character}
+\item \code{"all"}, \code{"mentions"}, \code{"retweet"}, \code{"quoted"}, and/or \code{"reply_to"}
+}}
 }
 \value{
 \code{igraph}
 }
 \description{
-Build a graph ready for proper social network analysis.
+Build a graph ready for social network analysis.
 }
 \examples{
 \dontrun{

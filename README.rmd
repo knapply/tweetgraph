@@ -1,8 +1,9 @@
 ---
-output: 
-  # html_document:
+output:
   github_document:
-    html_preview: false
+    html_preview: true
+  html_document:
+    keep_md: yes
 always_allow_html: yes
 editor_options: 
   chunk_output_type: console
@@ -53,18 +54,19 @@ library(tweetgraph)
 hashtag_rstats <- rtweet::search_tweets("#rstats")
 ```
 
-## Social Network
-
-```{r}
-as_social_network(hashtag_rstats)
-```
-
 ## Knowledge Graph
 
 ```{r}
-as_knowledge_graph(hashtag_rstats)
+kg <- as_knowledge_graph(hashtag_rstats)
+kg
+plot_vis_net(kg)
 ```
 
 
+## Social Network
 
-
+```{r}
+sn <- as_social_network(hashtag_rstats)
+sn
+plot_vis_net(sn)
+```

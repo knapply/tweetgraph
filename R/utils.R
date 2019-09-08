@@ -22,3 +22,8 @@ unlist_na_rm <- function(x) {
   init <- unlist(x, use.names = FALSE)
   init[!is.na(init)]
 }
+
+
+.is_empty <- function(.x) {
+  length(.x) == 0L
+}
