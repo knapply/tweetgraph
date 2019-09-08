@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a graph ready for social network analysis. — as_social_network • tweetgraph</title>
+<title>Interactively visualize a graph of twitter data — plot_vis_net • tweetgraph</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -34,9 +34,9 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Build a graph ready for social network analysis. — as_social_network" />
+<meta property="og:title" content="Interactively visualize a graph of twitter data — plot_vis_net" />
 
-<meta property="og:description" content="Build a graph ready for social network analysis." />
+<meta property="og:description" content="Interactively visualize a graph of twitter data" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,36 +127,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a graph ready for social network analysis.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/knapply/tweetgraph/blob/master/R/social-network.R'><code>R/social-network.R</code></a></small>
-    <div class="hidden name"><code>as_social_network.Rd</code></div>
+    <h1>Interactively visualize a graph of twitter data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/knapply/tweetgraph/blob/master/R/visNetwork.R'><code>R/visNetwork.R</code></a></small>
+    <div class="hidden name"><code>plot_vis_net.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Build a graph ready for social network analysis.</p>
+    <p>Interactively visualize a graph of twitter data</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>as_social_network</span>(<span class='no'>tweet_df</span>, <span class='kw'>action</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"mentions"</span>, <span class='st'>"retweet"</span>,
-  <span class='st'>"quoted"</span>, <span class='st'>"reply_to"</span>))</pre>
+    <pre class="usage"><span class='fu'>plot_vis_net</span>(<span class='no'>tweet_graph</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>tweet_graph</th>
+      <td><ul>
+<li><p>Currently objects obtained via <code><a href='as_knowledge_graph.html'>as_knowledge_graph()</a></code> and
+<code><a href='as_social_network.html'>as_social_network()</a></code></p></li>
+</ul></td>
+    </tr>
     <tr>
       <th>tweet_df</th>
       <td><ul>
 <li><p><code>data.frame</code></p><ul>
 <li><p>as returned by  <a href='https://rtweet.info/'>rtweet</a></p></li>
 </ul></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>action</th>
-      <td><ul>
-<li><p><code>character</code></p></li>
-<li><p><code>"all"</code>, <code>"mentions"</code>, <code>"retweet"</code>, <code>"quoted"</code>, and/or <code>"reply_to"</code></p></li>
 </ul></td>
     </tr>
     </table>
@@ -172,7 +171,9 @@
 
 <span class='no'>hashtag_rstats</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rtweet</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/search_tweets.html'>search_tweets</a></span>(<span class='st'>"#rstats"</span>)
 
-<span class='no'>tweet_graph</span> <span class='kw'>&lt;-</span> <span class='fu'>as_social_network</span>(<span class='no'>hashtag_rstats</span>)
+<span class='no'>hashtag_rstats</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='as_social_network.html'>as_social_network</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'>plot_vis_net</span>()
 
 
 }</div></pre>

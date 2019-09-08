@@ -1,6 +1,9 @@
-#' Build a graph ready for proper social network analysis.
+#' Build a graph ready for social network analysis.
 #' 
 #' @template param-tweet_df
+#' @param action 
+#' * `character`
+#' * `"all"`, `"mentions"`, `"retweet"`, `"quoted"`, and/or `"reply_to"`
 #'
 #' @return `igraph`
 #' 
@@ -21,7 +24,8 @@
 #' @importFrom igraph graph_from_data_frame V vertex_attr vertex.attributes<-
 #' 
 #' @export
-as_social_network <- function(tweet_df) {
+as_social_network <- function(tweet_df, action = c("all", "mentions", "retweet",
+                                                   "quoted", "reply_to")) {
   if (!is.data.table(tweet_df)) {
     tweet_df <- as.data.table(tweet_df)
   }
@@ -30,13 +34,23 @@ as_social_network <- function(tweet_df) {
             call. = FALSE)
     tweet_df[, timestamp_ms := Sys.time()]
   }
+
   
-  targets <- intersect(
-    names(tweet_df), c("mentions_user_id", "quoted_user_id", 
-                       "reply_to_user_id", "retweet_user_id")
+  action <- match.arg(action, 
+                      c("all", "mentions", "retweet", "quoted", "reply_to"),
+                      several.ok = TRUE)
+  if ("all" %chin% action) {
+    action <- c("mentions", "retweet", "quoted", "reply_to")
+  }
+  action <- paste0(action, "_user_id")
+  
+  col_to_keep <- .keep(
+    c("user_id", "status_id", action),
+    function(.x) is.character(tweet_df[[.x]])
   )
   
-  col_to_keep <- c("user_id", "status_id", targets)
+  targets <- intersect(col_to_keep, action)
+
   
   init <- tweet_df[
     , ..col_to_keep
@@ -51,7 +65,7 @@ as_social_network <- function(tweet_df) {
     variable.name = "action", value.name = "to",
     variable.factor = FALSE
     )[!is.na(to)
-      ]
+      ][, action := sub("_user_id$", "", action)]
   setcolorder(edge_df, neworder = c("from", "to", "action", "status_id"))
   
   users <- extract_all_users(

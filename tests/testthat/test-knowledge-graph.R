@@ -10,19 +10,29 @@ test_that("extract_all_users() works", {
     names(users),
     c("user_id", "timestamp_ms", "name", "screen_name", "location", 
       "description", "url", "protected", "followers_count", "friends_count", 
-      "listed_count", "statuses_count", "favourites_count", "account_created_at", 
-      "verified", "profile_url", "account_lang")
+      "listed_count", "statuses_count", "favourites_count",
+      "account_created_at", "verified", "profile_url", "account_lang")
   )
   
   expect_equal(
     .map_chr(users, typeof),
-    c(user_id = "character", timestamp_ms = "double", name = "character", 
-      screen_name = "character", location = "character", description = "character", 
-      url = "logical", protected = "logical", followers_count = "integer", 
-      friends_count = "integer", listed_count = "integer", statuses_count = "integer", 
-      favourites_count = "integer", account_created_at = "double", 
-      verified = "logical", profile_url = "character", account_lang = "logical"
-    )
+    c(user_id = "character",
+      timestamp_ms = "double",
+      name = "character",
+      screen_name = "character",
+      location = "character",
+      description = "character",
+      url = "logical",
+      protected = "logical",
+      followers_count = "integer",
+      friends_count = "integer",
+      listed_count = "integer",
+      statuses_count = "integer",
+      favourites_count = "integer",
+      account_created_at = "double",
+      verified = "logical",
+      profile_url = "character",
+      account_lang = "logical")
   )  
 })
 
