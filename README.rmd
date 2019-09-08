@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 ```
 
 
-# tweetgraph
+# `{tweetgraph}`
 
 <!-- badges: start -->
 [![Lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
@@ -37,7 +37,6 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 
-# Overview
 
 # Installation
 
@@ -52,9 +51,20 @@ remotes::install_github("knapply/tweetgraph")
 library(tweetgraph)
 
 hashtag_rstats <- rtweet::search_tweets("#rstats")
-
-tweet_graph <- as_knowledge_graph(hashtag_rstats)
-
-tweet_graph
 ```
+
+## Social Network
+
+```{r}
+as_social_network(hashtag_rstats)
+```
+
+## Knowledge Graph
+
+```{r}
+as_knowledge_graph(hashtag_rstats)
+```
+
+
+
 

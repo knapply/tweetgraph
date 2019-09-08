@@ -1,7 +1,7 @@
 
 <!-- README.Rmd generates README.md. -->
 
-# tweetgraph
+# `{tweetgraph}`
 
 <!-- badges: start -->
 
@@ -22,8 +22,6 @@ bytes](https://img.shields.io/github/languages/code-size/knapply/tweetgraph.svg)
 [![HitCount](http://hits.dwyl.io/knapply/tweetgraph.svg)](http://hits.dwyl.io/knapply/tweetgraph)
 <!-- badges: end -->
 
-# Overview
-
 # Installation
 
 ``` r
@@ -37,13 +35,34 @@ remotes::install_github("knapply/tweetgraph")
 library(tweetgraph)
 
 hashtag_rstats <- rtweet::search_tweets("#rstats")
-
-tweet_graph <- as_knowledge_graph(hashtag_rstats)
-
-tweet_graph
 ```
 
-    #> IGRAPH ea52eb1 DN-- 331 739 -- 
+## Social Network
+
+``` r
+as_social_network(hashtag_rstats)
+```
+
+    #> IGRAPH af741cb DN-- 108 234 -- 
+    #> + attr: name (v/c), timestamp_ms (v/n), TWITTER_NAME (v/c),
+    #> | screen_name (v/c), location (v/c), description (v/c), url (v/c),
+    #> | protected (v/l), followers_count (v/n), friends_count (v/n),
+    #> | listed_count (v/n), statuses_count (v/n), favourites_count
+    #> | (v/n), account_created_at (v/n), verified (v/l), profile_url
+    #> | (v/c), account_lang (v/l), node_class (v/c), action (e/c),
+    #> | status_id (e/c), text (e/c), source (e/c), lang (e/c)
+    #> + edges from af741cb (vertex names):
+    #> [1] 1011817655957893120->877278595 1011817655957893120->877278595
+    #> [3] 1011817655957893120->460315204 1011817655957893120->460315204
+    #> + ... omitted several edges
+
+## Knowledge Graph
+
+``` r
+as_knowledge_graph(hashtag_rstats)
+```
+
+    #> IGRAPH af835ef DN-- 322 1068 -- 
     #> + attr: timestamp_ms (v/n), name (v/c), created_at (v/n), text
     #> | (v/c), source (v/c), lang (v/c), node_class (v/c), TWITTER_NAME
     #> | (v/c), screen_name (v/c), location (v/c), description (v/c), url
@@ -52,6 +71,6 @@ tweet_graph
     #> | favourites_count (v/n), account_created_at (v/n), verified
     #> | (v/l), profile_url (v/c), account_lang (v/l), time (e/n),
     #> | source_class (e/c), action (e/c), target_class (e/c)
-    #> + edges from ea52eb1 (vertex names):
-    #> [1] 1165301524412526593->1169993733611429889
+    #> + edges from af835ef (vertex names):
+    #> [1] 1170484722868224000->1170486623143944192
     #> + ... omitted several edges
