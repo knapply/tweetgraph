@@ -10,7 +10,7 @@ as_knowledge_graph(tweet_df, .edge_type = c("info_flow", "interaction"))
 \item{tweet_df}{\itemize{
 \item \code{data.frame}
 \itemize{
-\item as returned by \href{https://rtweet.info/}{{rtweet}} functions.
+\item as returned by  \href{https://rtweet.info/}{{rtweet}}
 }
 }}
 
