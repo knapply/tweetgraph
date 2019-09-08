@@ -203,9 +203,7 @@ get_entity_edges <- function(.tweet_df, .col_list) {
 
 #' Build a knowledge graph from a tweet data frame.
 #' 
-#' @param tweet_df 
-#' * `data.frame`
-#'   + as returned by [`{rtweet}`](https://rtweet.info/) functions.
+#' @template param-tweet_df
 #' @param .edge_type
 #' * `character(1L)`
 #'   + `"info_flow"` or `"interaction"`

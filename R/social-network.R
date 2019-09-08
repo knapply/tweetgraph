@@ -1,8 +1,6 @@
 #' Build a graph ready for proper social network analysis.
 #' 
-#' @param tweet_df 
-#' * `data.frame`
-#'   + as returned by [`{rtweet}`](https://rtweet.info/) functions.
+#' @template param-tweet_df
 #'
 #' @return `igraph`
 #' 
@@ -42,26 +40,26 @@ as_social_network <- function(tweet_df) {
   
   init <- tweet_df[
     , ..col_to_keep
-  ][, lapply(.SD, unlist, use.names = FALSE), 
-    .SDcols = targets,
-    by = .(user_id, status_id)
-  ]
+    ][, lapply(.SD, unlist, use.names = FALSE), 
+      .SDcols = targets,
+      by = .(user_id, status_id)
+      ]
   setnames(init, old = "user_id", new = "from")
   
   edge_df <- melt(
     init, id.vars = c("from", "status_id"), 
     variable.name = "action", value.name = "to",
     variable.factor = FALSE
-  )[!is.na(to)
-  ]
+    )[!is.na(to)
+      ]
   setcolorder(edge_df, neworder = c("from", "to", "action", "status_id"))
   
   users <- extract_all_users(
     tweet_df
-  )[user_id %chin% unique(c(edge_df$from, edge_df$to))
-  ][, c("timestamp_ms", "account_created_at") := lapply(.SD, as.double),
-    .SDcols = c("timestamp_ms", "account_created_at")
-  ][, node_class := "user"]
+    )[user_id %chin% unique(c(edge_df$from, edge_df$to))
+      ][, c("timestamp_ms", "account_created_at") := lapply(.SD, as.double),
+        .SDcols = c("timestamp_ms", "account_created_at")
+        ][, node_class := "user"]
   setnames(users,
            old = c("name", "user_id"), 
            new = c("TWITTER_NAME", "name"))
@@ -73,8 +71,8 @@ as_social_network <- function(tweet_df) {
   ]
   
   edge_df <- edge_df[statuses, on = "status_id"
-  ][, timestamp_ms := NULL
-  ]
+                     ][, timestamp_ms := NULL
+                       ]
   
   out <- graph_from_data_frame(d = edge_df)
   
