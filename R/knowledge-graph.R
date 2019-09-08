@@ -18,8 +18,6 @@ extract_all_users <- function(tweet_df) {
   })
   
   if ("mentions" %chin% names(user_dfs)) {
-    mention_cols <- intersect(c("user_id", "screen_name"), 
-                              names(user_dfs$mentions))
     user_dfs$mentions[, row_id := .I]
     user_dfs$mentions <- rbindlist(
       lapply(split(user_dfs$mentions, by = "row_id"),
@@ -47,7 +45,7 @@ extract_all_statuses <- function(tweet_df) {
   
   status_cols <- status_col_names(tweet_df)
   
-  status_dfs <- lapply(status_cols, function(x){
+  status_dfs <- lapply(status_cols, function(x) {
     standardize_cols(
       tweet_df[, ..x]
     )[!is.na(status_id)]
@@ -179,10 +177,7 @@ get_status_user_edges <- function(.tweet_df, .col_list, edge_type) {
   set_edge_col_names(out, columns)
 }
 
-unlist_na_rm <- function(x) {
-  init <- unlist(x, use.names = FALSE)
-  init[!is.na(init)]
-}
+
 
 #' @importFrom data.table rbindlist setcolorder
 get_entity_edges <- function(.tweet_df, .col_list) {
