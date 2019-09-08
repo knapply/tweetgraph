@@ -66,9 +66,9 @@ as_social_network <- function(tweet_df) {
   
   statuses <- extract_all_statuses(
     tweet_df
-  )[status_id %chin% edge_df$status_id
-  ][, created_at := NULL
-  ]
+    )[status_id %chin% edge_df$status_id
+      ][, created_at := NULL
+        ]
   
   edge_df <- edge_df[statuses, on = "status_id"
                      ][, timestamp_ms := NULL
