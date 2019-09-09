@@ -119,7 +119,6 @@ add_vis_legend <- function(vis_net, tweet_graph) {
 
 #' Interactively visualize a graph of twitter data
 #' 
-#' @template param-tweet_df
 #' @param tweet_graph 
 #' * Currently objects obtained via `as_knowledge_graph()` and
 #' `as_social_network()`
@@ -135,11 +134,16 @@ add_vis_legend <- function(vis_net, tweet_graph) {
 #' hashtag_rstats <- rtweet::search_tweets("#rstats")
 #' 
 #' hashtag_rstats %>% 
+#'   as_knowledge_graph() %>% 
+#'   plot_vis_net()
+#' 
+#' hashtag_rstats %>% 
 #'   as_social_network() %>% 
 #'   plot_vis_net()
 #' 
-#' 
 #' }
+#' 
+#' @importFrom data.table :=
 #' 
 #' @export
 plot_vis_net <- function(tweet_graph) {
@@ -149,9 +153,22 @@ plot_vis_net <- function(tweet_graph) {
   
   tweet_graph <- set_graph_appearance(tweet_graph)
   
-  tweet_graph %>% 
-    visNetwork::visIgraph(idToLabel = FALSE) %>%
-    visNetwork::addFontAwesome(name = "font-awesome-visNetwork") %>%
-    add_vis_legend(tweet_graph)
+  vis_dat <- visNetwork::toVisNetworkData(tweet_graph, idToLabel = FALSE)
+ 
+  dttm_cols <- intersect(
+    names(vis_dat$nodes), c("created_at", "timestamp_ms", "account_created_at")
+  )
+  if (!.is_empty(dttm_cols)) {
+    vis_dat$nodes <- as.data.table(vis_dat$nodes)[
+      , (dttm_cols) := lapply(.SD, as.double),
+      .SDcols = dttm_cols
+    ]
+  }
+  
+  out <- visNetwork::visNetwork(nodes = vis_dat$nodes, edges = vis_dat$edges)
+  out <- visNetwork::visIgraphLayout(out)
+  out <- visNetwork::addFontAwesome(out, name = "font-awesome-visNetwork")
+  
+  add_vis_legend(out, tweet_graph)
 }
 
