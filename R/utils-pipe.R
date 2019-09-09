@@ -6,6 +6,6 @@
 #' @rdname pipe
 #' @keywords internal
 #' @export
-#' @importFrom magrittr %>%
+#' @importFrom igraph %>%
 #' @usage lhs \%>\% rhs
 NULL

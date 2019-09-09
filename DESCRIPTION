@@ -13,8 +13,7 @@ Imports:
     data.table,
     igraph,
     stats,
-    stringi,
-    magrittr
+    stringi
 Suggests:
     covr,
     knitr,
