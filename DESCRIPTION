@@ -12,8 +12,7 @@ Depends: R (>= 3.6)
 Imports:
     data.table,
     igraph,
-    stats,
-    stringi
+    stats
 Suggests:
     covr,
     knitr,
