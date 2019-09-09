@@ -150,14 +150,6 @@
 <code><a href='as_social_network.html'>as_social_network()</a></code></p></li>
 </ul></td>
     </tr>
-    <tr>
-      <th>tweet_df</th>
-      <td><ul>
-<li><p><code>data.frame</code></p><ul>
-<li><p>as returned by  <a href='https://rtweet.info/'>rtweet</a></p></li>
-</ul></li>
-</ul></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -172,9 +164,12 @@
 <span class='no'>hashtag_rstats</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rtweet</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/search_tweets.html'>search_tweets</a></span>(<span class='st'>"#rstats"</span>)
 
 <span class='no'>hashtag_rstats</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='as_social_network.html'>as_social_network</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='as_knowledge_graph.html'>as_knowledge_graph</a></span>() <span class='kw'>%&gt;%</span>
   <span class='fu'>plot_vis_net</span>()
 
+<span class='no'>hashtag_rstats</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='as_social_network.html'>as_social_network</a></span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'>plot_vis_net</span>()
 
 }</div></pre>
   </div>
