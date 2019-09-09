@@ -11,13 +11,6 @@ plot_vis_net(tweet_graph)
 \item Currently objects obtained via \code{as_knowledge_graph()} and
 \code{as_social_network()}
 }}
-
-\item{tweet_df}{\itemize{
-\item \code{data.frame}
-\itemize{
-\item as returned by  \href{https://rtweet.info/}{{rtweet}}
-}
-}}
 }
 \value{
 \code{igraph}
@@ -32,9 +25,12 @@ Interactively visualize a graph of twitter data
 hashtag_rstats <- rtweet::search_tweets("#rstats")
 
 hashtag_rstats \%>\% 
-  as_social_network() \%>\% 
+  as_knowledge_graph() \%>\% 
   plot_vis_net()
 
+hashtag_rstats \%>\% 
+  as_social_network() \%>\% 
+  plot_vis_net()
 
 }
 
