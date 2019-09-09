@@ -7,3 +7,8 @@
 ^pkgdown$
 ^codecov\.yml$
 ^playground$
+^codecov\.yml$
+^appveyor\.yml$
+^LICENSE\.md$
+^.travis.yml$
+^README.Rmd$
