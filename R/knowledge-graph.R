@@ -225,7 +225,6 @@ get_entity_edges <- function(.tweet_df, .col_list) {
 #'
 #' @importFrom data.table := %chin% as.data.table is.data.table setnames setorder
 #' @importFrom igraph as_ids graph_from_data_frame V vertex.attributes<- edge.attributes<-
-#' @importFrom stringi stri_trans_tolower
 #' 
 #' @export
 as_knowledge_graph <- function(tweet_df,
@@ -324,7 +323,7 @@ as_knowledge_graph <- function(tweet_df,
   entity_edges <- get_entity_edges(
     .tweet_df = tweet_df,
     .col_list = entity_cols
-  )[, target := stri_trans_tolower(target)]
+  )[, target := tolower(target)]
   
   edges <- rbindlist(lapply(list(status_user_edges, entity_edges), 
                             unique),

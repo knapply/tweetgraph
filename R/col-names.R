@@ -76,11 +76,11 @@ user_col_names <- function(tweet_df, timestamp_col = "timestamp_ms") {
   Filter(function(.x) length(.x) > 1L, out)
 }
 
-#' @importFrom stringi stri_replace_first_regex
+#' @importFrom data.table setnames
 standardize_cols <- function(df) {
   prototype_regex <- "^(retweet|reply_to|quoted|mentions)_"
-  setnames(df, old = names(df), new =  stri_replace_first_regex(
-    names(df), pattern = prototype_regex, replacement = ""
+  setnames(df, old = names(df), new =  sub(
+    pattern = prototype_regex, replacement = "", x = names(df)
   )
   )[]
 }
