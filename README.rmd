@@ -51,7 +51,8 @@ remotes::install_github("knapply/tweetgraph")
 ```{r}
 library(tweetgraph)
 
-hashtag_rstats <- rtweet::search_tweets("#rstats")
+library(rtweet)
+hashtag_rstats <- search_tweets("#rstats")
 ```
 
 ## Knowledge Graph
@@ -70,3 +71,30 @@ sn <- as_social_network(hashtag_rstats)
 sn
 plot_vis_net(sn)
 ```
+
+
+# So What?
+
+
+```{r, echo=FALSE}
+kableExtra::kable_styling(
+  knitr::kable(
+    data.table::data.table(
+      var = c("tweetgraph::as_knowledge_graph", "tweetgraph::as_social_network"),
+      n_nodes = vapply(list(kg, sn), igraph::vcount, numeric(1L)),
+      n_edges = vapply(list(kg, sn), igraph::ecount, numeric(1L)),
+      
+      node_types = list(unique(igraph::V(kg)$node_class),
+                        unique(igraph::V(sn)$node_class)),
+      node_attrs = list(igraph::vertex_attr_names(kg),
+                        igraph::vertex_attr_names(sn)),
+      edge_attrs = list(igraph::edge_attr_names(kg),
+                        igraph::edge_attr_names(sn)),
+      edge_types = list(unique(igraph::E(kg)$action),
+                        unique(igraph::E(sn)$action))
+    )
+  )
+)
+```
+
+

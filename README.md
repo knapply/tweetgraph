@@ -34,7 +34,8 @@ remotes::install_github("knapply/tweetgraph")
 ``` r
 library(tweetgraph)
 
-hashtag_rstats <- rtweet::search_tweets("#rstats")
+library(rtweet)
+hashtag_rstats <- search_tweets("#rstats")
 ```
 
 ## Knowledge Graph
@@ -44,7 +45,7 @@ kg <- as_knowledge_graph(hashtag_rstats)
 kg
 ```
 
-    #> IGRAPH 1c5a105 DN-- 271 917 -- 
+    #> IGRAPH 6682ee0 DN-- 304 925 -- 
     #> + attr: timestamp_ms (v/n), name (v/c), created_at (v/n), text
     #> | (v/c), source (v/c), lang (v/c), node_class (v/c), TWITTER_NAME
     #> | (v/c), screen_name (v/c), location (v/c), description (v/c), url
@@ -53,8 +54,8 @@ kg
     #> | favourites_count (v/n), account_created_at (v/n), verified
     #> | (v/l), profile_url (v/c), account_lang (v/l), time (e/n),
     #> | source_class (e/c), action (e/c), target_class (e/c)
-    #> + edges from 1c5a105 (vertex names):
-    #> [1] 1170761344846651402->1170802898818744321
+    #> + edges from 6682ee0 (vertex names):
+    #> [1] 1171386846666010624->1171396055512080384
     #> + ... omitted several edges
 
 ``` r
@@ -70,7 +71,7 @@ sn <- as_social_network(hashtag_rstats)
 sn
 ```
 
-    #> IGRAPH 1e7f021 DN-- 88 91 -- 
+    #> IGRAPH 6b1d76e DN-- 88 255 -- 
     #> + attr: name (v/c), timestamp_ms (v/n), TWITTER_NAME (v/c),
     #> | screen_name (v/c), location (v/c), description (v/c), url (v/c),
     #> | protected (v/l), followers_count (v/n), friends_count (v/n),
@@ -78,9 +79,9 @@ sn
     #> | (v/n), account_created_at (v/n), verified (v/l), profile_url
     #> | (v/c), account_lang (v/l), node_class (v/c), action (e/c),
     #> | status_id (e/c), text (e/c), source (e/c), lang (e/c)
-    #> + edges from 1e7f021 (vertex names):
-    #> [1] 703571724667908097->144592995  169859259         ->3230388598
-    #> [3] 67024593          ->54482107   158380504         ->4263007693
+    #> + edges from 6b1d76e (vertex names):
+    #> [1] 821105693948264448->16741059   821105693948264448->2879642556
+    #> [3] 821105693948264448->352684272  821105693948264448->16741059  
     #> + ... omitted several edges
 
 ``` r
@@ -88,3 +89,165 @@ plot_vis_net(sn)
 ```
 
 <img src="man/figures/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+
+# So What?
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+var
+
+</th>
+
+<th style="text-align:right;">
+
+n\_nodes
+
+</th>
+
+<th style="text-align:right;">
+
+n\_edges
+
+</th>
+
+<th style="text-align:left;">
+
+node\_types
+
+</th>
+
+<th style="text-align:left;">
+
+node\_attrs
+
+</th>
+
+<th style="text-align:left;">
+
+edge\_attrs
+
+</th>
+
+<th style="text-align:left;">
+
+edge\_types
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+tweetgraph::as\_knowledge\_graph
+
+</td>
+
+<td style="text-align:right;">
+
+304
+
+</td>
+
+<td style="text-align:right;">
+
+925
+
+</td>
+
+<td style="text-align:left;">
+
+c(“status”, “user”, “hashtag”, “media”, “url”)
+
+</td>
+
+<td style="text-align:left;">
+
+c(“timestamp\_ms”, “name”, “created\_at”, “text”, “source”, “lang”,
+“node\_class”, “TWITTER\_NAME”, “screen\_name”, “location”,
+“description”, “url”, “protected”, “followers\_count”,
+“friends\_count”, “listed\_count”, “statuses\_count”,
+“favourites\_count”, “account\_created\_at”, “verified”,
+“profile\_url”, “account\_lang”)
+
+</td>
+
+<td style="text-align:left;">
+
+c(“time”, “source\_class”, “action”, “target\_class”)
+
+</td>
+
+<td style="text-align:left;">
+
+c(“was\_retweeted\_by”, “was\_replied\_to\_by”, “posts”, “contains”,
+“mentions”)
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+tweetgraph::as\_social\_network
+
+</td>
+
+<td style="text-align:right;">
+
+88
+
+</td>
+
+<td style="text-align:right;">
+
+255
+
+</td>
+
+<td style="text-align:left;">
+
+user
+
+</td>
+
+<td style="text-align:left;">
+
+c(“name”, “timestamp\_ms”, “TWITTER\_NAME”, “screen\_name”, “location”,
+“description”, “url”, “protected”, “followers\_count”,
+“friends\_count”, “listed\_count”, “statuses\_count”,
+“favourites\_count”, “account\_created\_at”, “verified”,
+“profile\_url”, “account\_lang”, “node\_class”)
+
+</td>
+
+<td style="text-align:left;">
+
+c(“action”, “status\_id”, “text”, “source”, “lang”)
+
+</td>
+
+<td style="text-align:left;">
+
+c(“mentions”, “reply\_to”, “retweet”)
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
