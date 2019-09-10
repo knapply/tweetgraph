@@ -104,13 +104,14 @@
 <a href="#usage" class="anchor"></a>Usage</h1>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tweetgraph)</a>
 <a class="sourceLine" id="cb2-2" title="2"></a>
-<a class="sourceLine" id="cb2-3" title="3">hashtag_rstats &lt;-<span class="st"> </span>rtweet<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/search_tweets.html">search_tweets</a></span>(<span class="st">"#rstats"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rtweet)</a>
+<a class="sourceLine" id="cb2-4" title="4">hashtag_rstats &lt;-<span class="st"> </span><span class="kw">search_tweets</span>(<span class="st">"#rstats"</span>)</a></code></pre></div>
 <div id="knowledge-graph" class="section level2">
 <h2 class="hasAnchor">
 <a href="#knowledge-graph" class="anchor"></a>Knowledge Graph</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">kg &lt;-<span class="st"> </span><span class="kw"><a href="reference/as_knowledge_graph.html">as_knowledge_graph</a></span>(hashtag_rstats)</a>
 <a class="sourceLine" id="cb3-2" title="2">kg</a></code></pre></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">#&gt; IGRAPH b8436db DN-- 305 957 -- </span></a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co">#&gt; IGRAPH fc54bbe DN-- 297 720 -- </span></a>
 <a class="sourceLine" id="cb4-2" title="2"><span class="co">#&gt; + attr: timestamp_ms (v/n), name (v/c), created_at (v/n), text</span></a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="co">#&gt; | (v/c), source (v/c), lang (v/c), node_class (v/c), TWITTER_NAME</span></a>
 <a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt; | (v/c), screen_name (v/c), location (v/c), description (v/c), url</span></a>
@@ -119,8 +120,8 @@
 <a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt; | favourites_count (v/n), account_created_at (v/n), verified</span></a>
 <a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; | (v/l), profile_url (v/c), account_lang (v/l), time (e/n),</span></a>
 <a class="sourceLine" id="cb4-9" title="9"><span class="co">#&gt; | source_class (e/c), action (e/c), target_class (e/c)</span></a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; + edges from b8436db (vertex names):</span></a>
-<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; [1] 1171069388344254464-&gt;1171085129227239425</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; + edges from fc54bbe (vertex names):</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="co">#&gt; [1] 1171416619207278600-&gt;1171427757969903618</span></a>
 <a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt; + ... omitted several edges</span></a></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="reference/plot_vis_net.html">plot_vis_net</a></span>(kg)</a></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-4-1.png" style="display: block; margin: auto;"></p>
@@ -130,7 +131,7 @@
 <a href="#social-network" class="anchor"></a>Social Network</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">sn &lt;-<span class="st"> </span><span class="kw"><a href="reference/as_social_network.html">as_social_network</a></span>(hashtag_rstats)</a>
 <a class="sourceLine" id="cb6-2" title="2">sn</a></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co">#&gt; IGRAPH ba85136 DN-- 89 87 -- </span></a>
+<div class="sourceCode" id="cb7"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co">#&gt; IGRAPH fe67af5 DN-- 98 275 -- </span></a>
 <a class="sourceLine" id="cb7-2" title="2"><span class="co">#&gt; + attr: name (v/c), timestamp_ms (v/n), TWITTER_NAME (v/c),</span></a>
 <a class="sourceLine" id="cb7-3" title="3"><span class="co">#&gt; | screen_name (v/c), location (v/c), description (v/c), url (v/c),</span></a>
 <a class="sourceLine" id="cb7-4" title="4"><span class="co">#&gt; | protected (v/l), followers_count (v/n), friends_count (v/n),</span></a>
@@ -138,174 +139,70 @@
 <a class="sourceLine" id="cb7-6" title="6"><span class="co">#&gt; | (v/n), account_created_at (v/n), verified (v/l), profile_url</span></a>
 <a class="sourceLine" id="cb7-7" title="7"><span class="co">#&gt; | (v/c), account_lang (v/l), node_class (v/c), action (e/c),</span></a>
 <a class="sourceLine" id="cb7-8" title="8"><span class="co">#&gt; | status_id (e/c), text (e/c), source (e/c), lang (e/c)</span></a>
-<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; + edges from ba85136 (vertex names):</span></a>
-<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; [1] 14976542           -&gt;43186378   1858450519         -&gt;16741059  </span></a>
-<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; [3] 1064108650271309826-&gt;1270312236 84618490           -&gt;1363984302</span></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co">#&gt; + edges from fe67af5 (vertex names):</span></a>
+<a class="sourceLine" id="cb7-10" title="10"><span class="co">#&gt; [1] 14778204           -&gt;273781698         </span></a>
+<a class="sourceLine" id="cb7-11" title="11"><span class="co">#&gt; [2] 14778204           -&gt;273781698         </span></a>
 <a class="sourceLine" id="cb7-12" title="12"><span class="co">#&gt; + ... omitted several edges</span></a></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw"><a href="reference/plot_vis_net.html">plot_vis_net</a></span>(sn)</a></code></pre></div>
 <p><img src="reference/figures/unnamed-chunk-5-1.png" style="display: block; margin: auto;"></p>
 </div>
 </div>
-<div id="benchmarks" class="section level1">
+<div id="so-what" class="section level1">
 <h1 class="hasAnchor">
-<a href="#benchmarks" class="anchor"></a>Benchmarks</h1>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">big_tweet_df &lt;-<span class="st"> </span>rtweet<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/rtweet/man/search_tweets.html">search_tweets</a></span>(<span class="st">"face"</span>, <span class="dt">n =</span> <span class="dv">10000</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2">med_tweet_df &lt;-<span class="st"> </span>big_tweet_df[<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(big_tweet_df) <span class="op">%/%</span><span class="st"> </span>2L), ]</a>
-<a class="sourceLine" id="cb9-3" title="3">small_tweet_df &lt;-<span class="st"> </span>big_tweet_df[<span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(big_tweet_df) <span class="op">%/%</span><span class="st"> </span>4L), ]</a></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">paste_size &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw"><a href="https://rdrr.io/r/utils/capture.output.html">capture.output</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(pryr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/pryr/man/object_size.html">object_size</a></span>(x)))</a>
-<a class="sourceLine" id="cb10-2" title="2">kableExtra<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/kableExtra/man/kable_styling.html">kable_styling</a></span>(</a>
-<a class="sourceLine" id="cb10-3" title="3">  knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(</a>
-<a class="sourceLine" id="cb10-4" title="4">    <span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</a>
-<a class="sourceLine" id="cb10-5" title="5">      <span class="dt">var =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"small_tweet_df"</span>, <span class="st">"med_tweet_df"</span>, <span class="st">"big_tweet_df"</span>),</a>
-<a class="sourceLine" id="cb10-6" title="6">      <span class="dt">nrows =</span> scales<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/scales/man/number_format.html">comma</a></span>(</a>
-<a class="sourceLine" id="cb10-7" title="7">        <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(small_tweet_df), <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(med_tweet_df), <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(big_tweet_df))</a>
-<a class="sourceLine" id="cb10-8" title="8">      ),</a>
-<a class="sourceLine" id="cb10-9" title="9">      <span class="dt">ncols =</span> scales<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/scales/man/number_format.html">comma</a></span>(</a>
-<a class="sourceLine" id="cb10-10" title="10">        <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(small_tweet_df), <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(med_tweet_df), <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(big_tweet_df))</a>
-<a class="sourceLine" id="cb10-11" title="11">      ),</a>
-<a class="sourceLine" id="cb10-12" title="12">      <span class="dt">size =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">paste_size</span>(small_tweet_df), <span class="kw">paste_size</span>(med_tweet_df),</a>
-<a class="sourceLine" id="cb10-13" title="13">               <span class="kw">paste_size</span>(big_tweet_df))</a>
-<a class="sourceLine" id="cb10-14" title="14">    )</a>
-<a class="sourceLine" id="cb10-15" title="15">  ), <span class="dt">full_width =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb10-16" title="16">)</a></code></pre></div>
-<table class="table table">
-<thead><tr>
-<th style="text-align:left;">
-
-var
-
-</th>
-
-<th style="text-align:left;">
-
-nrows
-
-</th>
-
-<th style="text-align:left;">
-
-ncols
-
-</th>
-
-<th style="text-align:left;">
-
-size
-
-</th>
-
+<a href="#so-what" class="anchor"></a>So What?</h1>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">data.table<span class="op">::</span><span class="kw">data.table</span>(</a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="dt">var =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"as_knowledge_graph"</span>, <span class="st">"as_social_network"</span>),</a>
+<a class="sourceLine" id="cb9-3" title="3">  </a>
+<a class="sourceLine" id="cb9-4" title="4">  <span class="dt">n_nodes =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(kg, sn), igraph<span class="op">::</span>vcount, <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span>(1L)),</a>
+<a class="sourceLine" id="cb9-5" title="5">  <span class="dt">n_edges =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">vapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(kg, sn), igraph<span class="op">::</span>ecount, <span class="kw"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span>(1L)),</a>
+<a class="sourceLine" id="cb9-6" title="6">  </a>
+<a class="sourceLine" id="cb9-7" title="7">  <span class="dt">node_types =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(kg, sn), <span class="cf">function</span>(x) <span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(igraph<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/igraph/man/V.html">V</a></span>(x)<span class="op">$</span>node_class)),</a>
+<a class="sourceLine" id="cb9-8" title="8">  <span class="dt">node_attrs =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(kg, sn),igraph<span class="op">::</span>vertex_attr_names),</a>
+<a class="sourceLine" id="cb9-9" title="9">  </a>
+<a class="sourceLine" id="cb9-10" title="10">  <span class="dt">edge_attrs =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(kg, sn),igraph<span class="op">::</span>edge_attr_names),</a>
+<a class="sourceLine" id="cb9-11" title="11">  <span class="dt">edge_types =</span> <span class="kw"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(kg, sn), <span class="cf">function</span>(x) <span class="kw"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(igraph<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/igraph/man/E.html">E</a></span>(x)<span class="op">$</span>action))</a>
+<a class="sourceLine" id="cb9-12" title="12">  ) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(<span class="dt">format =</span> <span class="st">"markdown"</span>, <span class="dt">escape =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="3%">
+<col width="1%">
+<col width="1%">
+<col width="8%">
+<col width="58%">
+<col width="9%">
+<col width="17%">
+</colgroup>
+<thead><tr class="header">
+<th align="left">var</th>
+<th align="right">n_nodes</th>
+<th align="right">n_edges</th>
+<th align="left">node_types</th>
+<th align="left">node_attrs</th>
+<th align="left">edge_attrs</th>
+<th align="left">edge_types</th>
 </tr></thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-
-small\_tweet\_df
-
-</td>
-
-<td style="text-align:left;">
-
-2,499
-
-</td>
-
-<td style="text-align:left;">
-
-2,499
-
-</td>
-
-<td style="text-align:left;">
-
-5.26 MB
-
-</td>
-
+<tr class="odd">
+<td align="left">as_knowledge_graph</td>
+<td align="right">297</td>
+<td align="right">720</td>
+<td align="left">c(“status”, “user”, “hashtag”, “media”, “url”)</td>
+<td align="left">c(“timestamp_ms”, “name”, “created_at”, “text”, “source”, “lang”, “node_class”, “TWITTER_NAME”, “screen_name”, “location”, “description”, “url”, “protected”, “followers_count”, “friends_count”, “listed_count”, “statuses_count”, “favourites_count”, “account_created_at”, “verified”, “profile_url”, “account_lang”)</td>
+<td align="left">c(“time”, “source_class”, “action”, “target_class”)</td>
+<td align="left">c(“was_retweeted_by”, “was_replied_to_by”, “was_quoted_by”, “posts”, “contains”, “mentions”)</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-
-med\_tweet\_df
-
-</td>
-
-<td style="text-align:left;">
-
-4,999
-
-</td>
-
-<td style="text-align:left;">
-
-4,999
-
-</td>
-
-<td style="text-align:left;">
-
-10.3 MB
-
-</td>
-
-</tr>
-<tr>
-<td style="text-align:left;">
-
-big\_tweet\_df
-
-</td>
-
-<td style="text-align:left;">
-
-9,999
-
-</td>
-
-<td style="text-align:left;">
-
-9,999
-
-</td>
-
-<td style="text-align:left;">
-
-20.1 MB
-
-</td>
-
+<tr class="even">
+<td align="left">as_social_network</td>
+<td align="right">98</td>
+<td align="right">275</td>
+<td align="left">user</td>
+<td align="left">c(“name”, “timestamp_ms”, “TWITTER_NAME”, “screen_name”, “location”, “description”, “url”, “protected”, “followers_count”, “friends_count”, “listed_count”, “statuses_count”, “favourites_count”, “account_created_at”, “verified”, “profile_url”, “account_lang”, “node_class”)</td>
+<td align="left">c(“action”, “status_id”, “text”, “source”, “lang”)</td>
+<td align="left">c(“mentions”, “retweet”, “quoted”, “reply_to”)</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">res &lt;-<span class="st"> </span>microbenchmark<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span>(</a>
-<a class="sourceLine" id="cb11-2" title="2">  <span class="dt">small_social_network =</span> <span class="kw"><a href="reference/as_social_network.html">as_social_network</a></span>(small_tweet_df),</a>
-<a class="sourceLine" id="cb11-3" title="3">  <span class="dt">small_knowledge_graph =</span> <span class="kw"><a href="reference/as_knowledge_graph.html">as_knowledge_graph</a></span>(small_tweet_df),</a>
-<a class="sourceLine" id="cb11-4" title="4">  </a>
-<a class="sourceLine" id="cb11-5" title="5">  <span class="dt">med_social_network =</span> <span class="kw"><a href="reference/as_social_network.html">as_social_network</a></span>(med_tweet_df),</a>
-<a class="sourceLine" id="cb11-6" title="6">  <span class="dt">med_knowledge_graph =</span> <span class="kw"><a href="reference/as_knowledge_graph.html">as_knowledge_graph</a></span>(med_tweet_df),</a>
-<a class="sourceLine" id="cb11-7" title="7">  </a>
-<a class="sourceLine" id="cb11-8" title="8">  <span class="dt">big_social_network =</span> <span class="kw"><a href="reference/as_social_network.html">as_social_network</a></span>(big_tweet_df),</a>
-<a class="sourceLine" id="cb11-9" title="9">  <span class="dt">big_knowledge_graph =</span> <span class="kw"><a href="reference/as_knowledge_graph.html">as_knowledge_graph</a></span>(big_tweet_df),</a>
-<a class="sourceLine" id="cb11-10" title="10">  </a>
-<a class="sourceLine" id="cb11-11" title="11">  <span class="dt">times =</span> <span class="dv">3</span></a>
-<a class="sourceLine" id="cb11-12" title="12">)</a></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">res</a></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co">#&gt; Unit: milliseconds</span></a>
-<a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt;                   expr       min        lq      mean    median        uq</span></a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt;   small_social_network  501.2496  503.9477  563.9908  506.6457  595.3615</span></a>
-<a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt;  small_knowledge_graph  807.5311  808.5107  820.2113  809.4903  826.5514</span></a>
-<a class="sourceLine" id="cb13-5" title="5"><span class="co">#&gt;     med_social_network  899.7042  972.0926 1009.1662 1044.4809 1063.8973</span></a>
-<a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt;    med_knowledge_graph 1475.1835 1572.2647 1631.2742 1669.3459 1709.3196</span></a>
-<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt;     big_social_network 1815.0664 1868.1359 1914.7299 1921.2054 1964.5617</span></a>
-<a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt;    big_knowledge_graph 2908.5132 2959.8544 3094.5415 3011.1956 3187.5557</span></a>
-<a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt;        max neval</span></a>
-<a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt;   684.0772     3</span></a>
-<a class="sourceLine" id="cb13-11" title="11"><span class="co">#&gt;   843.6124     3</span></a>
-<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt;  1083.3136     3</span></a>
-<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt;  1749.2933     3</span></a>
-<a class="sourceLine" id="cb13-14" title="14"><span class="co">#&gt;  2007.9179     3</span></a>
-<a class="sourceLine" id="cb13-15" title="15"><span class="co">#&gt;  3363.9158     3</span></a></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span>(res)</a></code></pre></div>
-<p><img src="reference/figures/unnamed-chunk-9-1.png" style="display: block; margin: auto;"></p>
 </div>
 
   </div>
