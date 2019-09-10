@@ -42,18 +42,12 @@ as_social_network <- function(tweet_df, action = c("all", "mentions", "retweet",
   if ("all" %chin% action) {
     action <- c("mentions", "retweet", "quoted", "reply_to")
   }
-  action <- paste0(action, "_user_id")
+  targets <- paste0(action, "_user_id")
   
-  col_to_keep <- .keep(
-    c("user_id", "status_id", action),
-    function(.x) is.character(tweet_df[[.x]])
-  )
-  
-  targets <- intersect(col_to_keep, action)
-
+  cols_to_keep <- unique(c("user_id", "status_id", targets))
   
   init <- tweet_df[
-    , ..col_to_keep
+    , ..cols_to_keep
     ][, lapply(.SD, unlist, use.names = FALSE), 
       .SDcols = targets,
       by = .(user_id, status_id)
