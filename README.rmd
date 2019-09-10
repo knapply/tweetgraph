@@ -76,25 +76,19 @@ plot_vis_net(sn)
 # So What?
 
 
-```{r, echo=FALSE}
-kableExtra::kable_styling(
-  knitr::kable(
-    data.table::data.table(
-      var = c("tweetgraph::as_knowledge_graph", "tweetgraph::as_social_network"),
-      n_nodes = vapply(list(kg, sn), igraph::vcount, numeric(1L)),
-      n_edges = vapply(list(kg, sn), igraph::ecount, numeric(1L)),
-      
-      node_types = list(unique(igraph::V(kg)$node_class),
-                        unique(igraph::V(sn)$node_class)),
-      node_attrs = list(igraph::vertex_attr_names(kg),
-                        igraph::vertex_attr_names(sn)),
-      edge_attrs = list(igraph::edge_attr_names(kg),
-                        igraph::edge_attr_names(sn)),
-      edge_types = list(unique(igraph::E(kg)$action),
-                        unique(igraph::E(sn)$action))
-    )
-  )
-)
+```{r}
+data.table::data.table(
+  var = c("as_knowledge_graph", "as_social_network"),
+  
+  n_nodes = vapply(list(kg, sn), igraph::vcount, numeric(1L)),
+  n_edges = vapply(list(kg, sn), igraph::ecount, numeric(1L)),
+  
+  node_types = lapply(list(kg, sn), function(x) unique(igraph::V(x)$node_class)),
+  node_attrs = lapply(list(kg, sn),igraph::vertex_attr_names),
+  
+  edge_attrs = lapply(list(kg, sn),igraph::edge_attr_names),
+  edge_types = lapply(list(kg, sn), function(x) unique(igraph::E(x)$action))
+  ) %>% 
+  knitr::kable(format = "markdown", escape = FALSE)
 ```
-
 
