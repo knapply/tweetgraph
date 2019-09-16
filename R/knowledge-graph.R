@@ -1,62 +1,3 @@
-#' @importFrom data.table %chin% rbindlist
-extract_all_users <- function(tweet_df) {
-  # handle R CMD check NOTES about NSE {data.table} vars
-  # row_id <- NULL
-  # user_id <- NULL
-  # timestamp_ms <- NULL
-  # ..x <- NULL
-  # .I <- NULL
-  # .SD <- NULL
-  #
-  
-  user_cols <- user_col_names(tweet_df)
-  
-  user_dfs <- lapply(user_cols, function(x) {
-    standardize_cols(
-      tweet_df[, ..x]
-    )[!is.na(user_id)]
-  })
-  
-  if ("mentions" %chin% names(user_dfs)) {
-    user_dfs$mentions[, row_id := .I]
-    user_dfs$mentions <- rbindlist(
-      lapply(split(user_dfs$mentions, by = "row_id"),
-             unlist, recursive = FALSE)
-    )
-    user_dfs$mentions[, timestamp_ms := as.POSIXct(
-      timestamp_ms, 
-      origin = structure(0, class = c("POSIXct", "POSIXt"), tzone = "UTC")
-    )][, row_id := NULL]
-  }
-  
-  out <- rbindlist(user_dfs, use.names = TRUE, fill = TRUE)
-  
-  out[, lapply(.SD, function(.x) .x[which.min(is.na(.x))]),
-      by = user_id]
-}
-
-
-#' @importFrom data.table rbindlist
-extract_all_statuses <- function(tweet_df) {
-  # handle R CMD check NOTES about NSE {data.table} vars
-  # status_id <- NULL
-  # ..x <- NULL
-  #
-  
-  status_cols <- status_col_names(tweet_df)
-  
-  status_dfs <- lapply(status_cols, function(x) {
-    standardize_cols(
-      tweet_df[, ..x]
-    )[!is.na(status_id)]
-  })
-  
-  out <- rbindlist(status_dfs, use.names = TRUE, fill = TRUE)
-  
-  unique(out, by = "status_id")
-}
-
-
 #' @importFrom data.table %chin%
 decide_edge_action <- function(col_name, edge_type) {
   if (edge_type %chin% c("interaction", "entity")) {
@@ -226,7 +167,6 @@ get_entity_edges <- function(.tweet_df, .col_list) {
 #' @importFrom data.table := %chin% as.data.table is.data.table setnames setorder
 #' @importFrom igraph as_ids graph_from_data_frame V vertex.attributes<- edge.attributes<-
 #' 
-#' @export
 as_knowledge_graph <- function(tweet_df,
                                .edge_type = c("info_flow", "interaction")) {
   # handle R CMD check NOTES about NSE {data.table} vars
@@ -401,3 +341,169 @@ extract_ego <- function(tweet_graph, node_name, .order = 3L) {
 }
 
 
+
+
+
+
+#' Build a knowledge graph `<tweetgraph_primitive>`.
+#' 
+#' @template param-tweet_df
+#' @param .edge_type
+#' * `character(1L)`
+#'   + `"info_flow"` or `"interaction"`
+#' 
+#' @return `<tweetgraph_primitive>`
+#' 
+#' @template author-bk
+#' 
+#' @examples 
+#' \dontrun{
+#' 
+#' 
+#' hashtag_rstats <- rtweet::search_tweets("#rstats")
+#' 
+#' as_knowledge_graph_primitive(hashtag_rstats)
+#' 
+#' 
+#' }
+#' 
+#' @importFrom data.table := %chin% as.data.table is.data.table 
+#' @importFrom data.table setcolorder setnames setorder
+#' 
+#' @export
+as_knowledge_graph_primitive <- function(tweet_df, 
+                                         .edge_type = c("info_flow",
+                                                        "interaction")) {
+  if (!is.data.table(tweet_df)) {
+    tweet_df <- as.data.table(tweet_df)
+  }
+  if (!"timestamp_ms" %chin% names(tweet_df)) {
+    message("`timestamp_ms` column is missing. Setting column to `Sys.time()`.")
+    tweet_df[, timestamp_ms := Sys.time()]
+    
+    HAS_VALID_TIMESTAMP <- FALSE
+  } else {
+    HAS_VALID_TIMESTAMP <- TRUE
+  }
+  
+  .edge_type <- match.arg(.edge_type, c("info_flow", "interaction"))
+  
+  if (.edge_type == "info_flow") {
+    status_user_cols <- list(
+      # status to status, reversed
+      c("retweet_status_id", "status_id", "created_at"), 
+      c("reply_to_status_id", "status_id", "created_at"), 
+      c("quoted_status_id", "status_id", "created_at"),
+      # user to status
+      c("user_id", "status_id", "created_at"),
+      c("reply_to_user_id", "reply_to_status_id"),
+      c("retweet_user_id", "retweet_status_id", "retweet_created_at"),
+      c("quoted_user_id", "quoted_status_id", "quoted_created_at")
+    )
+  } else if (.edge_type == "interaction") {
+    status_user_cols <- list(
+      # # status to status
+      c("status_id", "retweet_status_id", "created_at"),
+      c("status_id", "reply_to_status_id", "created_at"),
+      c("status_id", "quoted_status_id", "created_at"),
+      # # status to user
+      c("status_id", "user_id", "created_at"),
+      c("reply_to_status_id", "reply_to_user_id"),
+      c("retweet_status_id", "retweet_user_id", "retweet_created_at"),
+      c("quoted_status_id", "quoted_user_id", "quoted_created_at")
+    )
+  } else {
+    stop("Unknown `edge_type`: ", .edge_type)
+  }
+  
+  good_status_user_cols <- vapply(status_user_cols, 
+                                  function(.x) all(.x %chin% names(tweet_df)),
+                                  FUN.VALUE = logical(1L))
+  status_user_cols <- status_user_cols[good_status_user_cols]
+  
+  status_user_edges <- get_status_user_edges(
+    .tweet_df = tweet_df,
+    .col_list = status_user_cols,
+    edge_type = .edge_type
+  )
+  
+  
+  entity_cols <- list(
+    # status to hashtag
+    c("status_id", "hashtags", "created_at"),
+    c("retweet_status_id", "hashtags", "retweet_created_at"),
+    c("quoted_status_id", "hashtags", "quoted_created_at"),
+    # status to media
+    c("status_id", "media_expanded_url", "created_at"),
+    c("retweet_status_id", "media_expanded_url", "retweet_created_at"),
+    c("quoted_status_id", "media_expanded_url", "quoted_created_at"),
+    # status to url
+    c("status_id", "urls_expanded_url", "created_at"),
+    c("retweet_status_id", "urls_expanded_url", "retweet_created_at"),
+    c("quoted_status_id", "urls_expanded_url", "quoted_created_at"),
+    # status to mention
+    c("status_id", "mentions_user_id", "created_at"),
+    c("retweet_status_id", "mentions_user_id", "retweet_created_at"),
+    c("quoted_status_id", "mentions_user_id", "quoted_created_at")
+  )
+  good_entity_cols <- vapply(entity_cols, 
+                             function(.x) all(.x %chin% names(tweet_df)),
+                             FUN.VALUE = logical(1L))
+  entity_cols <- entity_cols[good_entity_cols]
+  
+  entity_edges <- get_entity_edges(
+    .tweet_df = tweet_df,
+    .col_list = entity_cols
+  )[, target := tolower(target)]
+  
+  edge_df <- rbindlist(lapply(list(status_user_edges, entity_edges), 
+                               unique),
+                     use.names = TRUE)
+  edge_df[, time := as.double(time)]                      # igraph mangles POSIXct
+  
+  names_in_edge_df <- unique(c(edge_df$source, edge_df$target))
+  
+  status_attrs <- extract_all_statuses(tweet_df
+                                       )[status_id %chin% names_in_edge_df]
+  status_attrs[, node_class := "status"]
+  setnames(status_attrs, old = "status_id", new = "name")
+  
+  user_attrs <- extract_all_users(tweet_df)[user_id %chin% names_in_edge_df]
+  user_attrs[, node_class := "user"]
+  setnames(user_attrs, 
+           old = c("name", "user_id"), 
+           new = c("TWITTER_NAME", "name"))
+  
+  entity_attrs <- entity_edges[target_class %chin% c("hashtag", "media", "url"),
+                               .(name = target, node_class = target_class)]
+  
+  all_attrs <- rbindlist(
+    list(status_attrs, user_attrs, entity_attrs),
+    use.names = TRUE, fill = TRUE
+  )
+  
+  missing_nodes <- names_in_edge_df[!names_in_edge_df %chin% all_attrs$names]
+  if (length(missing_nodes) != 0L) {
+    missing_attrs <- rbindlist(
+      list(edge_df[source %chin% missing_nodes, 
+                   .(name = source, node_class = source_class)],
+           edge_df[target %chin% missing_nodes,
+                   .(name = target, node_class = target_class)]
+      )
+    )
+    
+    all_attrs <- rbindlist(list(all_attrs, missing_attrs),
+                           use.names = TRUE, fill = TRUE)
+  }
+  all_attrs <- unique(all_attrs, by = "name")
+  dttm_cols <- names(all_attrs)[.map_lgl(all_attrs, inherits, "POSIXct")]
+  all_attrs[, (dttm_cols) := lapply(.SD, as.double),
+            .SDcols = dttm_cols]
+  setcolorder(all_attrs, c("name", setdiff(names(all_attrs), "name")))
+  
+  structure(
+    list(edges = edge_df, nodes = all_attrs),
+    class = "tweetgraph_primitive",
+    edge_type = .edge_type
+  )
+}

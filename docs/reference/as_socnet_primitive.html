@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • tweetgraph</title>
+<title>Build a social network <code>&lt;tweetgraph_primitive&gt;</code>. — as_socnet_primitive • tweetgraph</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -34,7 +34,10 @@
 
   <link href="../extra.css" rel="stylesheet">
   
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Build a social network <code>&lt;tweetgraph_primitive&gt;</code>. — as_socnet_primitive" />
+
+<meta property="og:description" content="Build a social network &amp;lt;tweetgraph_primitive&amp;gt;." />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,7 +65,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -122,81 +125,69 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Build a social network <code>&lt;tweetgraph_primitive&gt;</code>.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/knapply/tweetgraph/blob/master/R/social-network.R'><code>R/social-network.R</code></a></small>
+    <div class="hidden name"><code>as_socnet_primitive.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    
+    <p>Build a social network <code>&lt;tweetgraph_primitive&gt;</code>.</p>
+    
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
-
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="as_knowledge_graph.html">as_knowledge_graph()</a></code> </p>
-        </td>
-        <td><p>Build a knowledge graph from a tweet data frame.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as_knowledge_graph_primitive.html">as_knowledge_graph_primitive()</a></code> </p>
-        </td>
-        <td><p>Build a knowledge graph <code>&lt;tweetgraph_primitive&gt;</code>.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as_knowledge_igraph.html">as_knowledge_igraph()</a></code> </p>
-        </td>
-        <td><p>Build a knowledge <code>&lt;igraph&gt;</code> from a <code>&lt;tweetgraph_primitive&gt;</code> or tweet
-<code>&lt;data.frame&gt;</code>.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as_socnet_igraph.html">as_socnet_igraph()</a></code> </p>
-        </td>
-        <td><p>Build an <code>&lt;igraph&gt;</code> for social network analysis from a
-<code>&lt;tweetgraph_primitive&gt;</code> or tweet <code>&lt;data.frame&gt;</code>.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as_socnet_network.html">as_socnet_network()</a></code> </p>
-        </td>
-        <td><p>Build a <code>&lt;network&gt;</code> a for social network analysis from a
-<code>&lt;tweetgraph_primitive&gt;</code> or tweet <code>&lt;data.frame&gt;</code>.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="as_socnet_primitive.html">as_socnet_primitive()</a></code> </p>
-        </td>
-        <td><p>Build a social network <code>&lt;tweetgraph_primitive&gt;</code>.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_vis_net.html">plot_vis_net()</a></code> </p>
-        </td>
-        <td><p>Interactively visualize a graph of twitter data</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>as_socnet_primitive</span>(<span class='no'>tweet_df</span>, <span class='kw'>action</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"all"</span>, <span class='st'>"mentions"</span>, <span class='st'>"retweet"</span>,
+  <span class='st'>"quoted"</span>, <span class='st'>"reply_to"</span>))</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>tweet_df</th>
+      <td><ul>
+<li><p><code>data.frame</code></p><ul>
+<li><p>as returned by  <a href='https://rtweet.info/'>rtweet</a></p></li>
+</ul></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>action</th>
+      <td><p><code>&lt;character&gt;</code></p><ul>
+<li><p><code>"all"</code>, <code>"mentions"</code>, <code>"retweet"</code>, <code>"quoted"</code>, and/or <code>"reply_to"</code></p></li>
+</ul></td>
+    </tr>
     </table>
-  </div>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p><code>&lt;tweetgraph_primitive&gt;</code></p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+
+
+<span class='no'>hashtag_rstats</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rtweet</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/search_tweets.html'>search_tweets</a></span>(<span class='st'>"#rstats"</span>)
+
+<span class='fu'>as_social_network_primitive</span>(<span class='no'>hashtag_rstats</span>)
+
+
+}</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
+    <h2>Author</h2>
+    <p>Brendan Knapp <a href='mailto:brendan.g.knapp@gmail.com'>brendan.g.knapp@gmail.com</a></p>
   </div>
 </div>
 
