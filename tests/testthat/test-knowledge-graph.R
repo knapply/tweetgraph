@@ -56,31 +56,3 @@ test_that("extract_all_statuses() works", {
   )  
 })
 
-
-test_that("as_knowledge_graph() works", {
-  hashtag_g <- as_knowledge_graph(hashtag_rstats)
-  
-  expect_equal(
-    igraph::vcount(hashtag_g),
-    329
-  )
-  
-  expect_equal(
-    igraph::ecount(hashtag_g),
-    812
-  )
-  
-  expect_equal(
-    igraph::vertex_attr_names(hashtag_g),
-    c("timestamp_ms", "name", "created_at", "text", "source", "lang", 
-      "node_class", "TWITTER_NAME", "screen_name", "location", "description", 
-      "url", "protected", "followers_count", "friends_count", "listed_count", 
-      "statuses_count", "favourites_count", "account_created_at", "verified", 
-      "profile_url", "account_lang")
-  )
-  
-  expect_equal(
-    igraph::edge_attr_names(hashtag_g),
-    c("time", "source_class", "action", "target_class")
-  )
-})

@@ -1,5 +1,5 @@
 Package: tweetgraph
-Title: Tweet Graph Structures and Other Utilities
+Title: Tweet Graph Structures for Network Analysis
 Version: 0.0.0.9000
 Authors@R: 
     person("Brendan", "Knapp", 
@@ -12,6 +12,7 @@ Depends: R (>= 3.6)
 Imports:
     data.table,
     igraph,
+    network,
     stats
 Suggests:
     covr,

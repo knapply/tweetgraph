@@ -51,44 +51,76 @@ remotes::install_github("knapply/tweetgraph")
 ```{r}
 library(tweetgraph)
 
-library(rtweet)
-hashtag_rstats <- search_tweets("#rstats")
+hashtag_rstats <- rtweet::search_tweets("#rstats")
 ```
 
 ## Knowledge Graph
 
+### `as_knowledge_graph_primitive()`
+
 ```{r}
-kg <- as_knowledge_graph(hashtag_rstats)
-kg
-plot_vis_net(kg)
+kg_data <- as_knowledge_graph_primitive(hashtag_rstats)
+kg_data$nodes %>% tibble::as_tibble()
+kg_data$edges %>% tibble::as_tibble()
+```
+
+### `as_knowledge_igraph()`
+
+```{r}
+as_knowledge_igraph(hashtag_rstats)
+as_knowledge_igraph(kg_data)
+```
+
+```{r}
+kg_data %>% 
+  as_knowledge_igraph() %>% 
+  plot_vis_net()
 ```
 
 
-## Social Network
+
+
+## Social Network Analysis
+
+### `as_socnet_primitive()`
 
 ```{r}
-sn <- as_social_network(hashtag_rstats)
-sn
-plot_vis_net(sn)
+sna_data <- as_socnet_primitive(hashtag_rstats)
+sna_data$nodes %>% tibble::as_tibble()
+sna_data$edges %>% tibble::as_tibble()
+```
+
+### `as_socnet_network()`
+
+```{r}
+as_socnet_network(hashtag_rstats)
+as_socnet_network(sna_data)
+```
+
+### `as_socnet_igraph()`
+
+```{r}
+as_socnet_igraph(hashtag_rstats)
+as_socnet_igraph(sna_data)
+```
+
+```{r}
+sna_data %>% 
+  as_socnet_igraph() %>% 
+  plot_vis_net()
 ```
 
 
-# So What?
+<!-- # `R CMD Check` -->
 
+<!-- ```{r} -->
+<!-- devtools::check(quiet = TRUE) -->
+<!-- ``` -->
+
+
+# Cite
 
 ```{r}
-data.table::data.table(
-  var = c("as_knowledge_graph", "as_social_network"),
-  
-  n_nodes = vapply(list(kg, sn), igraph::vcount, numeric(1L)),
-  n_edges = vapply(list(kg, sn), igraph::ecount, numeric(1L)),
-  
-  node_types = lapply(list(kg, sn), function(x) unique(igraph::V(x)$node_class)),
-  node_attrs = lapply(list(kg, sn),igraph::vertex_attr_names),
-  
-  edge_attrs = lapply(list(kg, sn),igraph::edge_attr_names),
-  edge_types = lapply(list(kg, sn), function(x) unique(igraph::E(x)$action))
-  ) %>% 
-  knitr::kable(format = "markdown", escape = FALSE)
+citation("tweetgraph")
 ```
 
