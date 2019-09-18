@@ -56,7 +56,7 @@ as_socnet_network.tweetgraph_primitive <- function(x, ...) {
   nw_edges <- copy(x$edges)
   nw_edges[, c("from", "to") := lapply(
     .SD, function(.x) as.integer(factor(.x, levels = x$nodes$name))
-  ), 
+   ), 
   .SDcols = c("from", "to")]
   
   names_eval <- rep(

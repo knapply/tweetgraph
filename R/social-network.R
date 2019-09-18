@@ -44,30 +44,28 @@ as_socnet_primitive <- function(tweet_df, action = c("all", "mentions",
   
   cols_to_keep <- unique(c("user_id", "status_id", targets))
   
-  init <- tweet_df[
-    , ..cols_to_keep
-  ][, lapply(.SD, unlist, use.names = FALSE), 
-    .SDcols = targets,
-    by = .(user_id, status_id)
-  ]
-  setnames(init, old = "user_id", new = "from")
+  init <- tweet_df[, ..cols_to_keep]
+  atomic_targets <- setdiff(names(init)[.map_lgl(init, is.atomic)],
+                            c("user_id", "status_id"))
+  init[, (atomic_targets) := lapply(.SD, as.list),
+       .SDcols = atomic_targets]
   
-  chr_init_cols <- names(init)[.map_lgl(init, is.character)]
+  edge_df <- melt(init, id.vars = c("user_id", "status_id"), 
+                  variable.name = "action", value.name = "to")
   
-  edge_df <- melt(
-    init[, ..chr_init_cols], id.vars = c("from", "status_id"), 
-    variable.name = "action", value.name = "to",
-    variable.factor = FALSE
-  )[!is.na(to)
-  ][, action := sub("_user_id$", "", action)]
+  edge_df <- edge_df[, .(to = unlist(to, use.names = FALSE)),
+      by = setdiff(names(edge_df), "to")
+      ][!is.na(to)
+        ][, action := sub("_user_id$", "", action)]
+  setnames(edge_df, old = "user_id", new = "from")
   setcolorder(edge_df, neworder = c("from", "to", "action", "status_id"))
-  
+
   users <- extract_all_users(
     tweet_df
-  )[user_id %chin% unique(c(edge_df$from, edge_df$to))
-  ][, c("timestamp_ms", "account_created_at") := lapply(.SD, as.double),
-    .SDcols = c("timestamp_ms", "account_created_at")
-  ][, node_class := "user"]
+    )[user_id %chin% unique(c(edge_df$from, edge_df$to))
+      ][, c("timestamp_ms", "account_created_at") := lapply(.SD, as.double),
+        .SDcols = c("timestamp_ms", "account_created_at")
+        ][, node_class := "user"]
   setnames(users,
            old = c("name", "user_id"), 
            new = c("TWITTER_NAME", "name"))
@@ -75,12 +73,12 @@ as_socnet_primitive <- function(tweet_df, action = c("all", "mentions",
   statuses <- extract_all_statuses(
     tweet_df
   )[status_id %chin% edge_df$status_id
-  ][, created_at := NULL
-  ]
+    ][, created_at := NULL
+      ]
   
   edge_df <- edge_df[statuses, on = "status_id"
-  ][, timestamp_ms := NULL
-  ]
+                     ][, timestamp_ms := NULL
+                       ]
   
   init_node_names <- unique(c(edge_df[["from"]], edge_df[["to"]]))
   missing_nodes <- init_node_names[!init_node_names %chin% users[["name"]]]
@@ -94,7 +92,7 @@ as_socnet_primitive <- function(tweet_df, action = c("all", "mentions",
   structure(
     list(edges = edge_df, nodes = users),
     class = "tweetgraph_primitive",
-    actions = intersect(targets, chr_init_cols)
+    actions = unique(edge_df$action)
   )
 }
 
