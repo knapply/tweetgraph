@@ -70,22 +70,22 @@ set_edge_col_names <- function(edge_df, columns) {
 
 #' @importFrom data.table :=
 #' @importFrom stats na.omit
-.get_status_user_edges <- function(columns, .tweet_df, edge_type) {
+.get_status_user_edges <- function(columns, tweet_df, edge_direction) {
   # handle R CMD check NOTES about NSE {data.table} vars
   # ..columns <- NULL
   #
   
-  edge_action_col <- switch (edge_type,
+  edge_action_col <- switch (edge_direction,
                              interaction = columns[[2L]],
                              info_flow = columns[[1L]],
-                             stop("Unknown `edge_type`: ", edge_type)
+                             stop("Unknown `edge_type`: ", edge_direction)
   )
   
-  out <- na.omit(.tweet_df, cols = columns
+  out <- na.omit(tweet_df, cols = columns
                  )[, ..columns
                    ][, c("source_class", "action", "target_class") := list(
                      decide_node_class(columns[[1L]]),
-                     decide_edge_action(edge_action_col, edge_type),
+                     decide_edge_action(edge_action_col, edge_direction),
                      decide_node_class(columns[[2L]])
                      )]
   
@@ -94,21 +94,25 @@ set_edge_col_names <- function(edge_df, columns) {
 
 
 #' @importFrom data.table rbindlist
-get_status_user_edges <- function(.tweet_df, .col_list, edge_type) {
-  df_list <- lapply(.col_list, .get_status_user_edges, .tweet_df, 
-                    edge_type = edge_type)
+get_status_user_edges <- function(tweet_df, edge_direction) {
+  target_cols <- status_user_edge_cols(tweet_df, edge_direction)
+  
+  df_list <- lapply(target_cols, .get_status_user_edges, 
+                    tweet_df = tweet_df, 
+                    edge_direction = edge_direction)
+  
   rbindlist(df_list, use.names = TRUE, fill = TRUE)
 }
 
 
 #' @importFrom data.table :=
 #' @importFrom stats na.omit
-.get_entity_edges <- function(columns, .tweet_df) {
+.get_entity_edges <- function(columns, tweet_df) {
   # handle R CMD check NOTES about NSE {data.table} vars
   # ..columns <- NULL
   #
   
-  out <- na.omit(.tweet_df, cols = columns
+  out <- na.omit(tweet_df, cols = columns
                  )[, ..columns
                    ][, c("source_class", "action", "target_class") := list(
                      decide_node_class(columns[[1L]]),
@@ -121,16 +125,18 @@ get_status_user_edges <- function(.tweet_df, .col_list, edge_type) {
 
 
 #' @importFrom data.table rbindlist setcolorder
-get_entity_edges <- function(.tweet_df, .col_list) {
+get_entity_edges <- function(tweet_df) {
   # handle R CMD check NOTES about NSE {data.table} vars
   # target <- NULL
   # . <- NULL
   #
+  target_cols <- entity_edge_cols(tweet_df)
   
   init <- rbindlist(
-    lapply(.col_list, .get_entity_edges, .tweet_df),
+    lapply(target_cols, .get_entity_edges, tweet_df),
     use.names = TRUE, fill = TRUE
   )
+  
   out <- init[, .(target = unlist_na_rm(target)),
               by = c("source", "source_class", 
                      "action", "target_class", "time")]
@@ -139,187 +145,6 @@ get_entity_edges <- function(.tweet_df, .col_list) {
     out, c("source", "target", "time", "source_class", "action", "target_class")
   )
 }
-
-
-
-#' Build a knowledge graph from a tweet data frame.
-#' 
-#' @template param-tweet_df
-#' @param .edge_type
-#' * `character(1L)`
-#'   + `"info_flow"` or `"interaction"`
-#' 
-#' @return `igraph`
-#' 
-#' @template author-bk
-#' 
-#' @examples 
-#' \dontrun{
-#' 
-#' 
-#' hashtag_rstats <- rtweet::search_tweets("#rstats")
-#' 
-#' tweet_graph <- as_knowledge_graph(hashtag_rstats)
-#' 
-#' 
-#' }
-#'
-#' @importFrom data.table := %chin% as.data.table is.data.table setnames setorder
-#' @importFrom igraph as_ids graph_from_data_frame V vertex.attributes<- edge.attributes<-
-#' 
-as_knowledge_graph <- function(tweet_df,
-                               .edge_type = c("info_flow", "interaction")) {
-  # handle R CMD check NOTES about NSE {data.table} vars
-  # source <- NULL
-  # source_class <- NULL
-  # target <- NULL
-  # target_class <- NULL
-  # time <- NULL
-  # status_id <- NULL
-  # node_class <- NULL
-  # user_id <- NULL
-  # timestamp_ms <- NULL
-  # node_order <- NULL
-  # . <- NULL
-  # ..columns <- NULL
-  # .I <- NULL
-  # .SD <- NULL
-  #
-  
-  if (!is.data.table(tweet_df)) {
-    tweet_df <- as.data.table(tweet_df)
-  }
-  if (!"timestamp_ms" %chin% names(tweet_df)) {
-    warning("`timestamp_ms` column is missing. Setting column to `Sys.time()`.",
-            call. = FALSE)
-    tweet_df[, timestamp_ms := Sys.time()]
-  }
-  
-  .edge_type <- match.arg(.edge_type, c("info_flow", "interaction"))
-  
-  if (.edge_type == "info_flow") {
-    status_user_cols <- list(
-      # status to status, reversed
-      c("retweet_status_id", "status_id", "created_at"), 
-      c("reply_to_status_id", "status_id", "created_at"), 
-      c("quoted_status_id", "status_id", "created_at"),
-      # user to status
-      c("user_id", "status_id", "created_at"),
-      c("reply_to_user_id", "reply_to_status_id"),
-      c("retweet_user_id", "retweet_status_id", "retweet_created_at"),
-      c("quoted_user_id", "quoted_status_id", "quoted_created_at")
-    )
-  } else if (.edge_type == "interaction") {
-    status_user_cols <- list(
-      # # status to status
-      c("status_id", "retweet_status_id", "created_at"),
-      c("status_id", "reply_to_status_id", "created_at"),
-      c("status_id", "quoted_status_id", "created_at"),
-      # # status to user
-      c("status_id", "user_id", "created_at"),
-      c("reply_to_status_id", "reply_to_user_id"),
-      c("retweet_status_id", "retweet_user_id", "retweet_created_at"),
-      c("quoted_status_id", "quoted_user_id", "quoted_created_at")
-    )
-  } else {
-    stop("Unknown `edge_type`: ", .edge_type)
-  }
-  
-  good_status_user_cols <- vapply(status_user_cols, 
-                                  function(.x) all(.x %chin% names(tweet_df)),
-                                  FUN.VALUE = logical(1L))
-  status_user_cols <- status_user_cols[good_status_user_cols]
-  
-  status_user_edges <- get_status_user_edges(
-    .tweet_df = tweet_df,
-    .col_list = status_user_cols,
-    edge_type = .edge_type
-  )
-  
-  
-  entity_cols <- list(
-    # status to hashtag
-    c("status_id", "hashtags", "created_at"),
-    c("retweet_status_id", "hashtags", "retweet_created_at"),
-    c("quoted_status_id", "hashtags", "quoted_created_at"),
-    # status to media
-    c("status_id", "media_expanded_url", "created_at"),
-    c("retweet_status_id", "media_expanded_url", "retweet_created_at"),
-    c("quoted_status_id", "media_expanded_url", "quoted_created_at"),
-    # status to url
-    c("status_id", "urls_expanded_url", "created_at"),
-    c("retweet_status_id", "urls_expanded_url", "retweet_created_at"),
-    c("quoted_status_id", "urls_expanded_url", "quoted_created_at"),
-    # status to mention
-    c("status_id", "mentions_user_id", "created_at"),
-    c("retweet_status_id", "mentions_user_id", "retweet_created_at"),
-    c("quoted_status_id", "mentions_user_id", "quoted_created_at")
-  )
-  good_entity_cols <- vapply(entity_cols, 
-                             function(.x) all(.x %chin% names(tweet_df)),
-                             FUN.VALUE = logical(1L))
-  entity_cols <- entity_cols[good_entity_cols]
-  
-  entity_edges <- get_entity_edges(
-    .tweet_df = tweet_df,
-    .col_list = entity_cols
-  )[, target := tolower(target)]
-  
-  edges <- rbindlist(lapply(list(status_user_edges, entity_edges), 
-                            unique),
-                     use.names = TRUE)
-  edges[, time := as.double(time)]                      # igraph mangles POSIXct
-  
-  g <- graph_from_data_frame(d = edges)
-  
-  status_attrs <- extract_all_statuses(tweet_df)[status_id %chin% V(g)$name]
-  status_attrs[, node_class := "status"]
-  setnames(status_attrs, old = "status_id", new = "name")
-  
-  user_attrs <- extract_all_users(tweet_df)[user_id %chin% V(g)$name]
-  user_attrs[, node_class := "user"]
-  setnames(user_attrs, 
-           old = c("name", "user_id"), 
-           new = c("TWITTER_NAME", "name"))
-  
-  entity_attrs <- entity_edges[target_class %chin% c("hashtag", "media", "url"),
-                               .(name = target, node_class = target_class)]
-  
-  all_attrs <- rbindlist(
-    list(status_attrs, user_attrs, entity_attrs),
-    use.names = TRUE, fill = TRUE
-  )
-  
-  missing_nodes <- V(g)[!V(g)$name %chin% all_attrs$name]
-  if (length(missing_nodes) != 0L) {
-    missing_attrs <- rbindlist(
-      list(edges[source %chin% missing_nodes$name, 
-                 .(name = source, node_class = source_class)],
-           edges[target %chin% missing_nodes$name,
-                 .(name = target, node_class = target_class)]
-      )
-    )
-    
-    all_attrs <- rbindlist(list(all_attrs, missing_attrs),
-                           use.names = TRUE, fill = TRUE)
-  }
-  
-  all_attrs <- unique(all_attrs, by = "name")
-  
-  all_attrs[, node_order := match(all_attrs$name, V(g)$name)]
-  
-  setorder(all_attrs, node_order)
-  all_attrs[, node_order := NULL]
-  
-  vertex.attributes(g) <- as.list(all_attrs)
-  
-  
-  attr(g, "edge_type") <- .edge_type
-  
-  g
-}
-
-
 
 
 
@@ -348,7 +173,7 @@ extract_ego <- function(tweet_graph, node_name, .order = 3L) {
 #' Build a knowledge graph `<tweetgraph_primitive>`.
 #' 
 #' @template param-tweet_df
-#' @param .edge_type
+#' @param edge_direction
 #' * `character(1L)`
 #'   + `"info_flow"` or `"interaction"`
 #' 
@@ -362,7 +187,7 @@ extract_ego <- function(tweet_graph, node_name, .order = 3L) {
 #' 
 #' hashtag_rstats <- rtweet::search_tweets("#rstats")
 #' 
-#' as_knowledge_graph_primitive(hashtag_rstats)
+#' as_kg_primitive(hashtag_rstats)
 #' 
 #' 
 #' }
@@ -371,9 +196,8 @@ extract_ego <- function(tweet_graph, node_name, .order = 3L) {
 #' @importFrom data.table setcolorder setnames setorder
 #' 
 #' @export
-as_knowledge_graph_primitive <- function(tweet_df, 
-                                         .edge_type = c("info_flow",
-                                                        "interaction")) {
+as_kg_primitive <- function(tweet_df, edge_direction = c("info_flow",
+                                                         "interaction")) {
   if (!is.data.table(tweet_df)) {
     tweet_df <- as.data.table(tweet_df)
   }
@@ -386,80 +210,20 @@ as_knowledge_graph_primitive <- function(tweet_df,
     HAS_VALID_TIMESTAMP <- TRUE
   }
   
-  .edge_type <- match.arg(.edge_type, c("info_flow", "interaction"))
+  edge_direction <- match.arg(edge_direction, c("info_flow", "interaction"))
+
+  status_user_edges <- get_status_user_edges(tweet_df, edge_direction)
   
-  if (.edge_type == "info_flow") {
-    status_user_cols <- list(
-      # status to status, reversed
-      c("retweet_status_id", "status_id", "created_at"), 
-      c("reply_to_status_id", "status_id", "created_at"), 
-      c("quoted_status_id", "status_id", "created_at"),
-      # user to status
-      c("user_id", "status_id", "created_at"),
-      c("reply_to_user_id", "reply_to_status_id"),
-      c("retweet_user_id", "retweet_status_id", "retweet_created_at"),
-      c("quoted_user_id", "quoted_status_id", "quoted_created_at")
-    )
-  } else if (.edge_type == "interaction") {
-    status_user_cols <- list(
-      # # status to status
-      c("status_id", "retweet_status_id", "created_at"),
-      c("status_id", "reply_to_status_id", "created_at"),
-      c("status_id", "quoted_status_id", "created_at"),
-      # # status to user
-      c("status_id", "user_id", "created_at"),
-      c("reply_to_status_id", "reply_to_user_id"),
-      c("retweet_status_id", "retweet_user_id", "retweet_created_at"),
-      c("quoted_status_id", "quoted_user_id", "quoted_created_at")
-    )
-  } else {
-    stop("Unknown `edge_type`: ", .edge_type)
-  }
+  entity_edges <- get_entity_edges(tweet_df
+                                   )[, target := tolower(target)
+                                     ]
   
-  good_status_user_cols <- vapply(status_user_cols, 
-                                  function(.x) all(.x %chin% names(tweet_df)),
-                                  FUN.VALUE = logical(1L))
-  status_user_cols <- status_user_cols[good_status_user_cols]
-  
-  status_user_edges <- get_status_user_edges(
-    .tweet_df = tweet_df,
-    .col_list = status_user_cols,
-    edge_type = .edge_type
-  )
-  
-  
-  entity_cols <- list(
-    # status to hashtag
-    c("status_id", "hashtags", "created_at"),
-    c("retweet_status_id", "hashtags", "retweet_created_at"),
-    c("quoted_status_id", "hashtags", "quoted_created_at"),
-    # status to media
-    c("status_id", "media_expanded_url", "created_at"),
-    c("retweet_status_id", "media_expanded_url", "retweet_created_at"),
-    c("quoted_status_id", "media_expanded_url", "quoted_created_at"),
-    # status to url
-    c("status_id", "urls_expanded_url", "created_at"),
-    c("retweet_status_id", "urls_expanded_url", "retweet_created_at"),
-    c("quoted_status_id", "urls_expanded_url", "quoted_created_at"),
-    # status to mention
-    c("status_id", "mentions_user_id", "created_at"),
-    c("retweet_status_id", "mentions_user_id", "retweet_created_at"),
-    c("quoted_status_id", "mentions_user_id", "quoted_created_at")
-  )
-  good_entity_cols <- vapply(entity_cols, 
-                             function(.x) all(.x %chin% names(tweet_df)),
-                             FUN.VALUE = logical(1L))
-  entity_cols <- entity_cols[good_entity_cols]
-  
-  entity_edges <- get_entity_edges(
-    .tweet_df = tweet_df,
-    .col_list = entity_cols
-  )[, target := tolower(target)]
-  
-  edge_df <- rbindlist(lapply(list(status_user_edges, entity_edges), 
-                               unique),
-                     use.names = TRUE)
-  edge_df[, time := as.double(time)]                      # igraph mangles POSIXct
+  edge_df <- rbindlist(
+    lapply(list(status_user_edges, entity_edges),
+           unique),
+    use.names = TRUE
+    )[, time := as.double(time) # igraph mangles POSIXct
+      ]
   
   names_in_edge_df <- unique(c(edge_df$source, edge_df$target))
   
@@ -468,8 +232,10 @@ as_knowledge_graph_primitive <- function(tweet_df,
   status_attrs[, node_class := "status"]
   setnames(status_attrs, old = "status_id", new = "name")
   
-  user_attrs <- extract_all_users(tweet_df)[user_id %chin% names_in_edge_df]
-  user_attrs[, node_class := "user"]
+  user_attrs <- extract_all_users(tweet_df
+                                  )[user_id %chin% names_in_edge_df
+                                    ][, node_class := "user"
+                                      ]
   setnames(user_attrs, 
            old = c("name", "user_id"), 
            new = c("TWITTER_NAME", "name"))
@@ -495,6 +261,7 @@ as_knowledge_graph_primitive <- function(tweet_df,
     all_attrs <- rbindlist(list(all_attrs, missing_attrs),
                            use.names = TRUE, fill = TRUE)
   }
+  
   all_attrs <- unique(all_attrs, by = "name")
   dttm_cols <- names(all_attrs)[.map_lgl(all_attrs, inherits, "POSIXct")]
   all_attrs[, (dttm_cols) := lapply(.SD, as.double),
@@ -504,6 +271,6 @@ as_knowledge_graph_primitive <- function(tweet_df,
   structure(
     list(edges = edge_df, nodes = all_attrs),
     class = "tweetgraph_primitive",
-    edge_type = .edge_type
+    edge_type = edge_direction
   )
 }
