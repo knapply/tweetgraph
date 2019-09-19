@@ -20,6 +20,8 @@ knitr::opts_chunk$set(
   message = FALSE,
   warning = FALSE
 )
+
+# options(width = 400)
 ```
 
 
@@ -56,60 +58,64 @@ hashtag_rstats <- rtweet::search_tweets("#rstats")
 
 ## Knowledge Graph
 
-### `as_knowledge_graph_primitive()`
+### `as_kg_primitive()`
 
 ```{r}
-kg_data <- as_knowledge_graph_primitive(hashtag_rstats)
-kg_data$nodes %>% tibble::as_tibble()
-kg_data$edges %>% tibble::as_tibble()
+kg_data <- as_kg_primitive(hashtag_rstats)
+
+lapply(kg_data, names)
 ```
 
-### `as_knowledge_igraph()`
+### Using `{igraph}`
 
 ```{r}
-as_knowledge_igraph(hashtag_rstats)
-as_knowledge_igraph(kg_data)
+as_kg_igraph(hashtag_rstats)
+as_kg_igraph(kg_data)
 ```
 
 ```{r}
 kg_data %>% 
-  as_knowledge_igraph() %>% 
+  as_kg_igraph() %>% 
   plot_vis_net()
 ```
 
+### Using `{network}`
 
+```{r}
+as_kg_network(hashtag_rstats)
+as_kg_network(kg_data)
+```
 
 
 ## Social Network Analysis
 
-### `as_socnet_primitive()`
+### `as_sna_primitive()`
 
 ```{r}
-sna_data <- as_socnet_primitive(hashtag_rstats)
-sna_data$nodes %>% tibble::as_tibble()
-sna_data$edges %>% tibble::as_tibble()
+sna_data <- as_sna_primitive(hashtag_rstats)
+
+lapply(sna_data, names)
 ```
 
-### `as_socnet_network()`
+### Using `{igraph}`
 
 ```{r}
-as_socnet_network(hashtag_rstats)
-as_socnet_network(sna_data)
-```
-
-### `as_socnet_igraph()`
-
-```{r}
-as_socnet_igraph(hashtag_rstats)
-as_socnet_igraph(sna_data)
+as_sna_igraph(hashtag_rstats)
+as_sna_igraph(sna_data)
 ```
 
 ```{r}
 sna_data %>% 
-  as_socnet_igraph() %>% 
+  as_sna_igraph() %>% 
   plot_vis_net()
 ```
 
+### Using `{network}`
+
+```{r}
+as_sna_network(hashtag_rstats)
+as_sna_network(sna_data)
+```
 
 <!-- # `R CMD Check` -->
 

@@ -14,7 +14,7 @@
 #' 
 #' hashtag_rstats <- rtweet::search_tweets("#rstats")
 #' 
-#' as_social_network_primitive(hashtag_rstats)
+#' as_sna_primitive(hashtag_rstats)
 #' 
 #' 
 #' }
@@ -23,9 +23,8 @@
 #' @importFrom data.table setnames setcolorder setorder
 #' 
 #' @export
-as_socnet_primitive <- function(tweet_df, action = c("all", "mentions",
-                                                     "retweet","quoted", 
-                                                     "reply_to")) {
+as_sna_primitive <- function(tweet_df, action = c("all", "mentions", "retweet",
+                                                  "quoted", "reply_to")) {
   if (!is.data.table(tweet_df)) {
     tweet_df <- as.data.table(tweet_df)
   }
@@ -51,12 +50,13 @@ as_socnet_primitive <- function(tweet_df, action = c("all", "mentions",
        .SDcols = atomic_targets]
   
   edge_df <- melt(init, id.vars = c("user_id", "status_id"), 
-                  variable.name = "action", value.name = "to")
+                  variable.name = "action", value.name = "to",
+                  variable.factor = FALSE)
   
-  edge_df <- edge_df[, .(to = unlist(to, use.names = FALSE)),
-      by = setdiff(names(edge_df), "to")
-      ][!is.na(to)
-        ][, action := sub("_user_id$", "", action)]
+  edge_df <- edge_df[, .(to = as.character(unlist(to, use.names = FALSE))),
+                     by = setdiff(names(edge_df), "to")
+                     ][!is.na(to)
+                       ][, action := sub("_user_id$", "", action)]
   setnames(edge_df, old = "user_id", new = "from")
   setcolorder(edge_df, neworder = c("from", "to", "action", "status_id"))
 

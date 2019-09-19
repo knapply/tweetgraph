@@ -87,8 +87,8 @@ standardize_cols <- function(df) {
 
 
 
-status_user_edge_cols <- function(tweet_df, .edge_type) {
-  if (.edge_type == "info_flow") {
+status_user_edge_cols <- function(tweet_df, edge_direction) {
+  if (edge_direction == "info_flow") {
     status_user_cols <- list(
       # status to status, reversed
       c("retweet_status_id", "status_id", "created_at"), 
@@ -100,7 +100,7 @@ status_user_edge_cols <- function(tweet_df, .edge_type) {
       c("retweet_user_id", "retweet_status_id", "retweet_created_at"),
       c("quoted_user_id", "quoted_status_id", "quoted_created_at")
     )
-  } else if (.edge_type == "interaction") {
+  } else if (edge_direction == "interaction") {
     status_user_cols <- list(
       # # status to status
       c("status_id", "retweet_status_id", "created_at"),
@@ -120,4 +120,25 @@ status_user_edge_cols <- function(tweet_df, .edge_type) {
 }
 
 
-
+entity_edge_cols <- function(tweet_df) {
+  entity_cols <- list(
+    # status to hashtag
+    c("status_id", "hashtags", "created_at"),
+    c("retweet_status_id", "hashtags", "retweet_created_at"),
+    c("quoted_status_id", "hashtags", "quoted_created_at"),
+    # status to media
+    c("status_id", "media_expanded_url", "created_at"),
+    c("retweet_status_id", "media_expanded_url", "retweet_created_at"),
+    c("quoted_status_id", "media_expanded_url", "quoted_created_at"),
+    # status to url
+    c("status_id", "urls_expanded_url", "created_at"),
+    c("retweet_status_id", "urls_expanded_url", "retweet_created_at"),
+    c("quoted_status_id", "urls_expanded_url", "quoted_created_at"),
+    # status to mention
+    c("status_id", "mentions_user_id", "created_at"),
+    c("retweet_status_id", "mentions_user_id", "retweet_created_at"),
+    c("quoted_status_id", "mentions_user_id", "quoted_created_at")
+  )
+  
+  .keep(entity_cols, function(.x) all(.x %chin% names(tweet_df)))
+}
