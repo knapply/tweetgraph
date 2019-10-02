@@ -235,7 +235,7 @@ as_kg_primitive <- function(tweet_df, edge_direction = c("info_flow",
   user_attrs <- extract_all_users(tweet_df
                                   )[user_id %chin% names_in_edge_df
                                     ][, node_class := "user"
-                                      ]
+                                      ][]
   setnames(user_attrs, 
            old = c("name", "user_id"), 
            new = c("TWITTER_NAME", "name"))

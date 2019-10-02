@@ -19,14 +19,18 @@ extract_all_users <- function(tweet_df) {
   
   if ("mentions" %chin% names(user_dfs)) {
     user_dfs$mentions[, row_id := .I]
-    user_dfs$mentions <- rbindlist(
-      lapply(split(user_dfs$mentions, by = "row_id"),
-             unlist, recursive = FALSE)
+    user_dfs$mentions <- suppressWarnings(
+      rbindlist(
+        lapply(split(user_dfs$mentions, by = "row_id"),
+               unlist, recursive = FALSE)
+      )
     )
     user_dfs$mentions[, timestamp_ms := as.POSIXct(
       timestamp_ms, 
       origin = structure(0, class = c("POSIXct", "POSIXt"), tzone = "UTC")
-    )][, row_id := NULL]
+      )
+      ][, row_id := NULL
+        ]
   }
   
   out <- rbindlist(user_dfs, use.names = TRUE, fill = TRUE)
