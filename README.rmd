@@ -117,16 +117,3 @@ as_sna_network(hashtag_rstats)
 as_sna_network(sna_data)
 ```
 
-<!-- # `R CMD Check` -->
-
-<!-- ```{r} -->
-<!-- devtools::check(quiet = TRUE) -->
-<!-- ``` -->
-
-
-# Cite
-
-```{r}
-citation("tweetgraph")
-```
-
