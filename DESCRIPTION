@@ -8,7 +8,7 @@ Authors@R:
            comment = c(ORCID = "0000-0003-3284-4972"))
 Description: Model tweet data as various graph structures.
 License: GPL-3 + file LICENSE
-Depends: R (>= 3.6)
+Depends: R (>= 3.3)
 Imports:
     data.table,
     igraph,
@@ -20,7 +20,8 @@ Suggests:
     pkgnet,
     rtweet,
     testthat (>= 2.1.0),
-    visNetwork
+    visNetwork,
+    rmarkdown
 URL: https://github.com/knapply/tweetgraph, https://knapply.github.io/tweetgraph
 BugReports: https://github.com/knapply/tweetgraph/issues
 Encoding: UTF-8
