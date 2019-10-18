@@ -56,36 +56,6 @@ library(tweetgraph)
 hashtag_rstats <- rtweet::search_tweets("#rstats")
 ```
 
-## Knowledge Graph
-
-### `as_kg_primitive()`
-
-```{r}
-kg_data <- as_kg_primitive(hashtag_rstats)
-
-lapply(kg_data, names)
-```
-
-### Using `{igraph}`
-
-```{r}
-as_kg_igraph(hashtag_rstats)
-as_kg_igraph(kg_data)
-```
-
-```{r}
-kg_data %>% 
-  as_kg_igraph() %>% 
-  plot_vis_net()
-```
-
-### Using `{network}`
-
-```{r}
-as_kg_network(hashtag_rstats)
-as_kg_network(kg_data)
-```
-
 
 ## Social Network Analysis
 
@@ -117,3 +87,82 @@ as_sna_network(hashtag_rstats)
 as_sna_network(sna_data)
 ```
 
+## Write Gephi-Friendly .graphml Files
+
+
+```{r}
+target_file_path <- "~/gephi-tweets.graphml"
+
+tweet_graph <- as_sna_igraph(hashtag_rstats)
+
+write_graphml(g = tweet_graph, path = target_file_path)
+```
+
+### Opening with Gephi
+
+1.
+
+```{r, echo=FALSE}
+knitr::include_graphics("inst/www/gephi-open.PNG")
+```
+
+<br><br>
+
+2.
+
+```{r, echo=FALSE}
+knitr::include_graphics("inst/www/gephi-open-2.PNG")
+```
+
+<br><br>
+
+3.
+
+```{r, echo=FALSE}
+knitr::include_graphics("inst/www/gephi-open-3.PNG")
+```
+
+<br><br>
+
+4.
+
+```{r, echo=FALSE}
+knitr::include_graphics("inst/www/gephi-open-4.PNG")
+```
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("inst/www/gephi-open-5.PNG")
+```
+
+
+
+## Knowledge Graph
+
+### `as_kg_primitive()`
+
+```{r}
+kg_data <- as_kg_primitive(hashtag_rstats)
+
+lapply(kg_data, names)
+```
+
+### Using `{igraph}`
+
+```{r}
+as_kg_igraph(hashtag_rstats)
+as_kg_igraph(kg_data)
+```
+
+```{r}
+kg_data %>% 
+  as_kg_igraph() %>% 
+  plot_vis_net()
+```
+
+### Using `{network}`
+
+```{r}
+as_kg_network(hashtag_rstats)
+as_kg_network(kg_data)
+```

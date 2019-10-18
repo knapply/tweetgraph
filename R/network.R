@@ -120,7 +120,7 @@ as_sna_network.tweetgraph_primitive <- function(x, ...) {
                        ]
             , 
             by = "row_index"),
-      function(.x) as.list(.x[,row_index := NULL])
+      function(.x) as.list(.x[, row_index := NULL])
     )
   )
 
