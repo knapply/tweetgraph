@@ -6,8 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Build a knowledge <code>&lt;network&gt;</code> from a <code>&lt;tweetgraph_primitive&gt;</code> or tweet
-<code>&lt;data.frame&gt;</code>. — as_kg_network • tweetgraph</title>
+<title>Write a tweet <code>&lt;igraph&gt;</code> to a .graphml file — write_graphml • tweetgraph</title>
 
 
 <!-- jquery -->
@@ -38,10 +37,8 @@
   <link href="../extra.css" rel="stylesheet">
   
 
-<meta property="og:title" content="Build a knowledge <code>&lt;network&gt;</code> from a <code>&lt;tweetgraph_primitive&gt;</code> or tweet
-<code>&lt;data.frame&gt;</code>. — as_kg_network" />
-<meta property="og:description" content="Build a knowledge &amp;lt;network&amp;gt; from a &amp;lt;tweetgraph_primitive&amp;gt; or tweet
-&amp;lt;data.frame&amp;gt;." />
+<meta property="og:title" content="Write a tweet <code>&lt;igraph&gt;</code> to a .graphml file — write_graphml" />
+<meta property="og:description" content="Write a tweet &amp;lt;igraph&amp;gt; to a .graphml file" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -120,50 +117,56 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Build a knowledge <code>&lt;network&gt;</code> from a <code>&lt;tweetgraph_primitive&gt;</code> or tweet
-<code>&lt;data.frame&gt;</code>.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/knapply/tweetgraph/blob/master/R/network.R'><code>R/network.R</code></a></small>
-    <div class="hidden name"><code>as_kg_network.Rd</code></div>
+    <h1>Write a tweet <code>&lt;igraph&gt;</code> to a .graphml file</h1>
+    <small class="dont-index">Source: <a href='https://github.com/knapply/tweetgraph/blob/master/R/graphml.R'><code>R/graphml.R</code></a></small>
+    <div class="hidden name"><code>write_graphml.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Build a knowledge <code>&lt;network&gt;</code> from a <code>&lt;tweetgraph_primitive&gt;</code> or tweet
-<code>&lt;data.frame&gt;</code>.</p>
+    <p>Write a tweet <code>&lt;igraph&gt;</code> to a .graphml file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_kg_network</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for data.frame</span>
-<span class='fu'>as_kg_network</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='co'># S3 method for tweetgraph_primitive</span>
-<span class='fu'>as_kg_network</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>write_graphml</span>(<span class='no'>g</span>, <span class='no'>path</span>, <span class='kw'>na_numbers_as</span> <span class='kw'>=</span> -<span class='fl'>1</span>, <span class='kw'>na_characters_as</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='kw'>drop_na_attrs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p><code>&lt;tweetgraph_primitive&gt;</code> or tweet <code>&lt;data.frame&gt;</code></p></td>
+      <th>g</th>
+      <td><p><code>&lt;igraph&gt;</code> object</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Arguments passed to or from other methods.</p></td>
+      <th>path</th>
+      <td><p><code>&lt;character&gt;</code> scalar</p></td>
+    </tr>
+    <tr>
+      <th>na_numbers_as</th>
+      <td><p><code>&lt;numeric&gt;</code> scalar indicating the value to which
+<code>NA_real_</code>s and <code>NA_integer_</code> are re-coded Default: <code>-1</code>.</p></td>
+    </tr>
+    <tr>
+      <th>na_characters_as</th>
+      <td><p><code>&lt;character&gt;</code> scalar indicating the value to which
+<code>NA_character_</code>s are re-coded. Default: <code>""</code>.</p></td>
+    </tr>
+    <tr>
+      <th>drop_na_attrs</th>
+      <td><p><code>&lt;logical&gt;</code> scalar indicating whether</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p><code>&lt;network&gt;</code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 
-
 <span class='no'>hashtag_rstats</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rtweet</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/search_tweets.html'>search_tweets</a></span>(<span class='st'>"#rstats"</span>)
 
-<span class='fu'>as_kg_network</span>(<span class='no'>hashtag_rstats</span>)
+<span class='no'>tweet_graph</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='as_sna_igraph.html'>as_sna_igraph</a></span>(<span class='no'>tweet_df</span>)
 
+<span class='no'>target_file_path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>"graphml"</span>)
+
+<span class='fu'>write_graphml</span>(<span class='kw'>g</span> <span class='kw'>=</span> <span class='no'>tweet_graph</span>, <span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>target_file_path</span>)
 
 }</div></pre>
   </div>
@@ -171,7 +174,6 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

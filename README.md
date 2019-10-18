@@ -65,7 +65,7 @@ lapply(sna_data, names)
 as_sna_igraph(hashtag_rstats)
 ```
 
-    #> IGRAPH f4a6618 DN-- 71 180 -- 
+    #> IGRAPH 6fdbb99 DN-- 68 176 -- 
     #> + attr: name (v/c), timestamp_ms (v/n), TWITTER_NAME (v/c),
     #> | screen_name (v/c), location (v/c), description (v/c), url (v/c),
     #> | protected (v/l), followers_count (v/n), friends_count (v/n),
@@ -73,16 +73,16 @@ as_sna_igraph(hashtag_rstats)
     #> | (v/n), account_created_at (v/n), verified (v/l), profile_url
     #> | (v/c), account_lang (v/l), node_class (v/c), action (e/c),
     #> | status_id (e/c), text (e/c), source (e/c), lang (e/c)
-    #> + edges from f4a6618 (vertex names):
-    #> [1] 21061618           ->84618490   21061618           ->84618490  
-    #> [3] 1028097331004989440->4263007693 1028097331004989440->4263007693
+    #> + edges from 6fdbb99 (vertex names):
+    #> [1] 1075011651366199297->144592995 1075011651366199297->144592995
+    #> [3] 1075011651366199297->144592995 1075011651366199297->144592995
     #> + ... omitted several edges
 
 ``` r
 as_sna_igraph(sna_data)
 ```
 
-    #> IGRAPH f4a74be DN-- 71 180 -- 
+    #> IGRAPH 6fdca54 DN-- 68 176 -- 
     #> + attr: name (v/c), timestamp_ms (v/n), TWITTER_NAME (v/c),
     #> | screen_name (v/c), location (v/c), description (v/c), url (v/c),
     #> | protected (v/l), followers_count (v/n), friends_count (v/n),
@@ -90,9 +90,9 @@ as_sna_igraph(sna_data)
     #> | (v/n), account_created_at (v/n), verified (v/l), profile_url
     #> | (v/c), account_lang (v/l), node_class (v/c), action (e/c),
     #> | status_id (e/c), text (e/c), source (e/c), lang (e/c)
-    #> + edges from f4a74be (vertex names):
-    #> [1] 21061618           ->84618490   21061618           ->84618490  
-    #> [3] 1028097331004989440->4263007693 1028097331004989440->4263007693
+    #> + edges from 6fdca54 (vertex names):
+    #> [1] 1075011651366199297->144592995 1075011651366199297->144592995
+    #> [3] 1075011651366199297->144592995 1075011651366199297->144592995
     #> + ... omitted several edges
 
 ``` r
@@ -110,15 +110,15 @@ as_sna_network(hashtag_rstats)
 ```
 
     #>  Network attributes:
-    #>   vertices = 71 
+    #>   vertices = 68 
     #>   directed = TRUE 
     #>   hyper = FALSE 
     #>   loops = TRUE 
     #>   multiple = TRUE 
     #>   bipartite = FALSE 
-    #>   total edges= 180 
+    #>   total edges= 176 
     #>     missing edges= 0 
-    #>     non-missing edges= 180 
+    #>     non-missing edges= 176 
     #> 
     #>  Vertex attribute names: 
     #>     account_created_at account_lang description favourites_count followers_count friends_count listed_count location node_class profile_url protected screen_name statuses_count timestamp_ms TWITTER_NAME url verified vertex.names 
@@ -131,15 +131,15 @@ as_sna_network(sna_data)
 ```
 
     #>  Network attributes:
-    #>   vertices = 71 
+    #>   vertices = 68 
     #>   directed = TRUE 
     #>   hyper = FALSE 
     #>   loops = TRUE 
     #>   multiple = TRUE 
     #>   bipartite = FALSE 
-    #>   total edges= 180 
+    #>   total edges= 176 
     #>     missing edges= 0 
-    #>     non-missing edges= 180 
+    #>     non-missing edges= 176 
     #> 
     #>  Vertex attribute names: 
     #>     account_created_at account_lang description favourites_count followers_count friends_count listed_count location node_class profile_url protected screen_name statuses_count timestamp_ms TWITTER_NAME url verified vertex.names 
@@ -160,24 +160,24 @@ write_graphml(g = tweet_graph, path = target_file_path)
 ### Opening with Gephi
 
 1.  
-<img src="inst/www/gephi-open.PNG" style="display: block; margin: auto;" />
+<img src="gephi-open.PNG" style="display: block; margin: auto;" />
 
 <br><br>
 
 2.  
-<img src="inst/www/gephi-open-2.PNG" style="display: block; margin: auto;" />
+<img src="gephi-open-2.PNG" style="display: block; margin: auto;" />
 
 <br><br>
 
 3.  
-<img src="inst/www/gephi-open-3.PNG" style="display: block; margin: auto;" />
+<img src="gephi-open-3.PNG" style="display: block; margin: auto;" />
 
 <br><br>
 
 4.  
-<img src="inst/www/gephi-open-4.PNG" style="display: block; margin: auto;" />
+<img src="gephi-open-4.PNG" style="display: block; margin: auto;" />
 
-<img src="inst/www/gephi-open-5.PNG" style="display: block; margin: auto;" />
+<img src="gephi-open-5.PNG" style="display: block; margin: auto;" />
 
 ## Knowledge Graph
 
@@ -209,7 +209,7 @@ lapply(kg_data, names)
 as_kg_igraph(hashtag_rstats)
 ```
 
-    #> IGRAPH f6cdd3f DN-- 262 897 -- 
+    #> IGRAPH 720affa DN-- 247 851 -- 
     #> + attr: name (v/c), timestamp_ms (v/n), created_at (v/n), text
     #> | (v/c), source (v/c), lang (v/c), node_class (v/c), TWITTER_NAME
     #> | (v/c), screen_name (v/c), location (v/c), description (v/c), url
@@ -218,15 +218,15 @@ as_kg_igraph(hashtag_rstats)
     #> | favourites_count (v/n), account_created_at (v/n), verified
     #> | (v/l), profile_url (v/c), account_lang (v/l), time (e/n),
     #> | source_class (e/c), action (e/c), target_class (e/c)
-    #> + edges from f6cdd3f (vertex names):
-    #> [1] 1184830470548328448->1184979874823294976
+    #> + edges from 720affa (vertex names):
+    #> [1] 1184982560247631873->1184989314238894080
     #> + ... omitted several edges
 
 ``` r
 as_kg_igraph(kg_data)
 ```
 
-    #> IGRAPH f6ce4b5 DN-- 262 897 -- 
+    #> IGRAPH 720b74e DN-- 247 851 -- 
     #> + attr: name (v/c), timestamp_ms (v/n), created_at (v/n), text
     #> | (v/c), source (v/c), lang (v/c), node_class (v/c), TWITTER_NAME
     #> | (v/c), screen_name (v/c), location (v/c), description (v/c), url
@@ -235,8 +235,8 @@ as_kg_igraph(kg_data)
     #> | favourites_count (v/n), account_created_at (v/n), verified
     #> | (v/l), profile_url (v/c), account_lang (v/l), time (e/n),
     #> | source_class (e/c), action (e/c), target_class (e/c)
-    #> + edges from f6ce4b5 (vertex names):
-    #> [1] 1184830470548328448->1184979874823294976
+    #> + edges from 720b74e (vertex names):
+    #> [1] 1184982560247631873->1184989314238894080
     #> + ... omitted several edges
 
 ``` r
@@ -254,15 +254,15 @@ as_kg_network(hashtag_rstats)
 ```
 
     #>  Network attributes:
-    #>   vertices = 262 
+    #>   vertices = 247 
     #>   directed = TRUE 
     #>   hyper = FALSE 
     #>   loops = TRUE 
     #>   multiple = FALSE 
     #>   bipartite = FALSE 
-    #>   total edges= 897 
+    #>   total edges= 851 
     #>     missing edges= 0 
-    #>     non-missing edges= 897 
+    #>     non-missing edges= 851 
     #> 
     #>  Vertex attribute names: 
     #>     account_created_at account_lang created_at description favourites_count followers_count friends_count lang listed_count location node_class profile_url protected screen_name source statuses_count text timestamp_ms TWITTER_NAME url verified vertex.names 
@@ -275,15 +275,15 @@ as_kg_network(kg_data)
 ```
 
     #>  Network attributes:
-    #>   vertices = 262 
+    #>   vertices = 247 
     #>   directed = TRUE 
     #>   hyper = FALSE 
     #>   loops = TRUE 
     #>   multiple = FALSE 
     #>   bipartite = FALSE 
-    #>   total edges= 897 
+    #>   total edges= 851 
     #>     missing edges= 0 
-    #>     non-missing edges= 897 
+    #>     non-missing edges= 851 
     #> 
     #>  Vertex attribute names: 
     #>     account_created_at account_lang created_at description favourites_count followers_count friends_count lang listed_count location node_class profile_url protected screen_name source statuses_count text timestamp_ms TWITTER_NAME url verified vertex.names 

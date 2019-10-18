@@ -103,7 +103,7 @@ write_graphml(g = tweet_graph, path = target_file_path)
 1.
 
 ```{r, echo=FALSE}
-knitr::include_graphics("inst/www/gephi-open.PNG")
+knitr::include_graphics("gephi-open.PNG")
 ```
 
 <br><br>
@@ -111,7 +111,7 @@ knitr::include_graphics("inst/www/gephi-open.PNG")
 2.
 
 ```{r, echo=FALSE}
-knitr::include_graphics("inst/www/gephi-open-2.PNG")
+knitr::include_graphics("gephi-open-2.PNG")
 ```
 
 <br><br>
@@ -119,7 +119,7 @@ knitr::include_graphics("inst/www/gephi-open-2.PNG")
 3.
 
 ```{r, echo=FALSE}
-knitr::include_graphics("inst/www/gephi-open-3.PNG")
+knitr::include_graphics("gephi-open-3.PNG")
 ```
 
 <br><br>
@@ -127,12 +127,12 @@ knitr::include_graphics("inst/www/gephi-open-3.PNG")
 4.
 
 ```{r, echo=FALSE}
-knitr::include_graphics("inst/www/gephi-open-4.PNG")
+knitr::include_graphics("gephi-open-4.PNG")
 ```
 
 
 ```{r, echo=FALSE}
-knitr::include_graphics("inst/www/gephi-open-5.PNG")
+knitr::include_graphics("gephi-open-5.PNG")
 ```
 
 
